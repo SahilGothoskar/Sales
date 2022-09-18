@@ -14,6 +14,7 @@ Wal-Mart Stores, Inc., is one of the most well-known and valuable brands in the 
 There is historical sales data for 45 Walmart stores in various regions.
 
 Goals:
+
 Which retailer has the highest sales
 Which retailer's standard deviation is the highest
 Consequently, there are wide variations in sales.
@@ -23,6 +24,7 @@ Sales may suffer over certain holidays.
 Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
 Give insights and a monthly and semester snapshot of the sales in units.
 A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
+
 Factors:
 
 
