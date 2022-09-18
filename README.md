@@ -29,8 +29,8 @@ Find out which holidays have more sales than the average non-holiday season sale
 Give insights and a monthly and semester snapshot of the sales in units.
 
 A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
-Factors:
 
+Factors:
 
 Store - the store number
 
