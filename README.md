@@ -1,6 +1,9 @@
 GROUP MEMBERS:
+
 Sneha Giranje (002785370) 
+
 Arundhati Pathrikar (002780632) 
+
 Sahil Gothoskar (002775631)
 
 PROJECT NAME/TOPIC :SALES
