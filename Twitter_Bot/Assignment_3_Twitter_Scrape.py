@@ -88,7 +88,7 @@ def scrape(words, date_since, numtweet):
 				# Function call to print tweet data on screen
 				printtweetdata(i, ith_tweet)
 				i = i+1
-		filename = 'tweetsGFG.csv'
+		filename = 'GFG_tweets.csv'
 
 		# we will save our database as a CSV file.
 		db.to_csv(filename)
@@ -97,10 +97,10 @@ if __name__ == '__main__':
 
 		# Enter your own credentials obtained
 		# from your developer account
-		consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		access_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		access_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+		consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+		consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+		access_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+		access_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 
 		auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
