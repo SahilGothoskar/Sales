@@ -1,0 +1,11 @@
+Relation Query:
+
+What are the various hashtags related to walmart/sales?
+--> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
+π COUNT (\delta hastags)
+ γ COUNT (\delta hastags)
+  σ description = "walmartsales" tweets
+
+Which location has received the most tweets?
+--> SELECT location , COUNT(totaltweets) FROM tweets GROUP BY location DESC LIMIT=1;
+γ location, COUNT (totaltweets) tweets DESC LIMIT=1
