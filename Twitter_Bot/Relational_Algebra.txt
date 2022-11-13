@@ -2,21 +2,20 @@ Relation Query:
 
 What are the various hashtags related to walmart/sales?
 --> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
-π COUNT (\delta hastags)
- γ COUNT (\delta hastags)
-  σ description = "walmartsales" tweets
+RQ:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
 
 Which location has received the most tweets?
 --> SELECT location , COUNT(totaltweets) FROM tweets GROUP BY location DESC LIMIT=1;
-γ location, COUNT (totaltweets) tweets DESC LIMIT=1
+RQ: γ location, COUNT (totaltweets) tweets DESC LIMIT=1
 
 HP Pavilion product is tweeted the most in which location?
 --> SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
-τ location
- π location, COUNT (totaltweets)
-  γ COUNT (totaltweets)
-   σ description LIKE "%HP Pavilion%" tweets LIMIT=1
+RQ: τ location  π location, COUNT (totaltweets) γ COUNT (totaltweets) σ description LIKE "%HP Pavilion%" tweets LIMIT=1
 
 Which top 3 cities received the most gift cards?
 --> SELECT location, COUNT(*) FROM tweets WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
-γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
+RQ: γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
+
+Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
+--> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
+RQ: τ totaltweets π username, COUNT (totaltweets) γ COUNT (totaltweets) tweets LIMIT=3
