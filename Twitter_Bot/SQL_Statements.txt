@@ -1,0 +1,63 @@
+SQL QUERIES:
+
+1.Create Table Tweets 
+
+CREATE TABLE tweets(
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+username VARCHAR NOT NULL,
+description VARCHAR NOT NULL,
+location VARCHAR NOT NULL,
+following INTEGER NOT NULL,
+followers INTEGER NOT NULL,
+totaltweets INTEGER NOT NULL,
+retweetcount INTEGER NOT NULL,
+text VARCHAR NOT NULL,
+hastags VARCHAR NOT NULL)
+
+2.How many tweets about Walmart delivery are there?
+SELECT OOUNT(*) FROM tweets WHERE description = "walmart delivery";
+
+3.How many tweets have there been about #walmartsales?
+SELECT * FROM tweets WHERE hastags ="#walmartsales" ;
+
+4.What are the various hashtags related to walmart/sales?
+SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
+
+5.How many people/tweets are pleased with Walmart?
+SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%'; 
+
+6.How many tweets about Walmart delivery are there?
+SELECT COUNT(*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
+
+7.Who are the actors/influencers promoting deals involving Walmart gift cards?
+SELECT * FROM tweets WHERE description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description ="influencers" ;
+
+8.Which location has received the most tweets?
+SELECT location , COUNT(totaltweets)
+FROM tweets
+GROUP BY location DESC LIMIT=1;
+
+9.HP Pavilion product is tweeted the most in which location?
+SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
+
+10.What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
+SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
+
+11.What are the most recent Walmart distribution center tweets?
+SELECT * FROM tweets WHERE description = "walmart distribution centre";
+
+12.How many customers are moving from walmart to target?
+SELECT COUNT(*) FROM tweets WHERE description ="no walmart yes target";
+
+13.How many customers are irritated when their order is lost or delivered late?
+SELECT COUNT(*) FROM tweets WHERE description LIKE '%latedelivery%' OR description LIKE '%lost%' AND hastags LIKE '%walfart%';
+
+14.Which top 3 cities received the most gift cards?
+SELECT location , COUNT(*)
+FROM tweets
+WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
+
+15.Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
+SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
+
+
