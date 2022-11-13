@@ -1,7 +1,9 @@
 Relation Query:
 
+Relation Query:
+
 What are the various hashtags related to walmart/sales?
---> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
+--> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
 RQ:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
 
 Which location has received the most tweets?
@@ -17,5 +19,17 @@ Which top 3 cities received the most gift cards?
 RQ: γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
 
 Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
---> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
+--> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
 RQ: τ totaltweets π username, COUNT (totaltweets) γ COUNT (totaltweets) tweets LIMIT=3
+
+How many customers are moving from walmart to target?
+--> SELECT COUNT(*) FROM tweets WHERE description ="no walmart yes target";
+RQ: π COUNT (*) γ COUNT (*) σ description = "no walmart yes target" tweets
+
+What are the most recent Walmart distribution center tweets?
+--> SELECT * FROM tweets WHERE description = "walmart distribution centre";
+RQ: π * σ description = "walmart distribution centre" tweets
+
+What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
+--> SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
+RQ: π COUNT (*) γ COUNT (*) σ hastags LIKE "%walfart%" tweets
