@@ -1,7 +1,5 @@
 Relation Query:
 
-Relation Query:
-
 What are the various hashtags related to walmart/sales?
 --> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
 RQ:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
