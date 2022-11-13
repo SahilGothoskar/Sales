@@ -1,0 +1,374 @@
+CODE TO EXTRACT TWEETS FROM TWITTER USING TWEEPY
+
+||
+
+# Python Script to Extract tweets of a
+# particular Hashtag using Tweepy and Pandas
+
+
+
+
+# import modules
+import pandas as pd
+import tweepy
+
+
+
+
+# function to display data of each tweet
+def printtweetdata(n, ith_tweet):
+        print()
+        print(f"Tweet {n}:")
+        print(f"Username:{ith_tweet[0]}")
+        print(f"Description:{ith_tweet[1]}")
+        print(f"Location:{ith_tweet[2]}")
+        print(f"Following Count:{ith_tweet[3]}")
+        print(f"Follower Count:{ith_tweet[4]}")
+        print(f"Total Tweets:{ith_tweet[5]}")
+        print(f"Retweet Count:{ith_tweet[6]}")
+        print(f"Tweet Text:{ith_tweet[7]}")
+        print(f"Hashtags Used:{ith_tweet[8]}")
+
+
+
+
+
+# function to perform data extraction
+def scrape(words, date_since, numtweet):
+
+
+
+
+        # Creating DataFrame using pandas
+        db = pd.DataFrame(columns=['username',
+                                'description',
+                                'location',
+                                'following',
+                                'followers',
+                                'totaltweets',
+                                'retweetcount',
+                                'text',
+                                'hashtags'])
+
+
+
+
+        # We are using .Cursor() to search
+        # through twitter for the required tweets.
+        # The number of tweets can be
+        # restricted using .items(number of tweets)
+        tweets = tweepy.Cursor(api.search_tweets,
+                            words, lang="en",
+                            since_id=date_since,
+                            tweet_mode='extended').items(numtweet)
+
+
+
+
+
+        # .Cursor() returns an iterable object. Each item in
+        # the iterator has various attributes
+        # that you can access to
+        # get information about each tweet
+        list_tweets = [tweet for tweet in tweets]
+
+
+
+
+        # Counter to maintain Tweet Count
+        i = 1
+
+
+
+
+        # we will iterate over each tweet in the
+        # list for extracting information about each tweet
+        for tweet in list_tweets:
+                username = tweet.user.screen_name
+                description = tweet.user.description
+                location = tweet.user.location
+                following = tweet.user.friends_count
+                followers = tweet.user.followers_count
+                totaltweets = tweet.user.statuses_count
+                retweetcount = tweet.retweet_count
+                hashtags = tweet.entities['hashtags']
+
+
+
+
+                # Retweets can be distinguished by
+                # a retweeted_status attribute,
+                # in case it is an invalid reference,
+                # except block will be executed
+                try:
+                        text = tweet.retweeted_status.full_text
+                except AttributeError:
+                        text = tweet.full_text
+                hashtext = list()
+                for j in range(0, len(hashtags)):
+                        hashtext.append(hashtags[j]['text'])
+
+
+
+
+                # Here we are appending all the
+                # extracted information in the DataFrame
+                ith_tweet = [username, description,
+                            location, following,
+                            followers, totaltweets,
+                            retweetcount, text, hashtext]
+                db.loc[len(db)] = ith_tweet
+
+
+
+
+                # Function call to print tweet data on screen
+                printtweetdata(i, ith_tweet)
+                i = i+1
+        filename = 'tweetsGFG.csv'
+
+
+
+
+        # we will save our database as a CSV file.
+        db.to_csv(filename)
+
+
+
+
+if __name__ == '__main__':
+
+
+
+
+        # Enter your own credentials obtained
+        # from your developer account
+        consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        access_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        access_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+
+
+
+
+
+        auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+        auth.set_access_token(access_key, access_secret)
+        api = tweepy.API(auth)
+
+
+
+
+        # Enter Hashtag and initial date
+        print("Enter Twitter HashTag to search for")
+        words = input()
+        print("Enter Date since The Tweets are required in yyyy-mm--dd")
+        date_since = input()
+
+
+
+
+        # number of tweets you want to extract in one run
+        numtweet = 100
+        scrape(words, date_since, numtweet)
+        print('Scraping has completed!')
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+CODE TO PUSH DATA FROM CSV TO DATABASE SQLITE3
+
+||
+
+
+# Import required modules
+import csv
+import sqlite3
+
+# Connecting to the geeks database
+connection = sqlite3.connect('Tweets_Extracted.db')
+
+# Creating a cursor object to execute
+# SQL queries on a database table
+cursor = connection.cursor()
+
+# Table Definition
+create_table = '''CREATE TABLE tweets(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username VARCHAR NOT NULL,
+                description VARCHAR NOT NULL,
+                location VARCHAR NOT NULL,
+                following INTEGER NOT NULL,
+                followers INTEGER NOT NULL,
+                totaltweets INTEGER NOT NULL,
+                retweetcount INTEGER NOT NULL,
+                text VARCHAR NOT NULL,
+                hastags VARCHAR NOT NULL
+                );
+                '''
+
+# Creating the table into our
+# database
+cursor.execute(create_table)
+
+# Opening the tweets-records.csv file
+file = open('GFG_tweets.csv' , errors='ignore')
+
+# Reading the contents of the
+# tweets-records.csv file
+contents = csv.reader(file)
+
+
+# SQL query to insert data into the
+# tweets table
+insert_records = "INSERT INTO tweets (id,username,description,location,following,followers,totaltweets,retweetcount,text,hastags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ? )"
+
+# Importing the contents of the file
+# into our tweets table
+cursor.executemany(insert_records, contents)
+
+# SQL query to retrieve all data from
+# the tweets table To verify that the
+# data of the csv file has been successfully
+# inserted into the table
+select_all = "SELECT * FROM tweets"
+rows = cursor.execute(select_all).fetchall()
+
+# Output to the console screen
+for r in rows:
+    print(r)
+
+# Committing the changes
+connection.commit()
+
+# closing the database connection
+connection.close()
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Questions:
+
+
+
+Which location has received the most tweets?
+
+
+HP Pavilion product is tweeted the most in which location?
+
+
+What are the various hashtags related to walmart/sales?
+
+
+How many tweets about Walmart delivery are there?
+
+
+How many people/tweets are pleased with Walmart?
+
+
+What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
+
+
+How many tweets have there been about #walmartsales?
+
+
+What are the most recent Walmart distribution center tweets?
+
+
+How many customers are moving from walmart to target?
+
+
+How many customers are irritated when their order is lost or delivered late?
+
+
+Which city had the fewest tweets in 2018, and what hashtags were used there?
+
+
+Which top 3 cities received the most gift cards?
+
+
+Who are the actors/influencers promoting deals involving Walmart gift cards?
+
+
+Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Relation Algebra
+
+||
+
+
+What are the various hashtags related to walmart/sales?
+--> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
+RA:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
+
+Which location has received the most tweets?
+--> SELECT location , COUNT(totaltweets) FROM tweets GROUP BY location DESC LIMIT=1;
+RA: γ location, COUNT (totaltweets) tweets DESC LIMIT=1
+
+HP Pavilion product is tweeted the most in which location?
+--> SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
+RA: τ location  π location, COUNT (totaltweets) γ COUNT (totaltweets) σ description LIKE "%HP Pavilion%" tweets LIMIT=1
+
+Which top 3 cities received the most gift cards?
+--> SELECT location, COUNT(*) FROM tweets WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
+RA: γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
+
+Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
+--> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
+RA: τ totaltweets π username, COUNT (totaltweets) γ COUNT (totaltweets) tweets LIMIT=3
+
+How many customers are moving from walmart to target?
+--> SELECT COUNT(*) FROM tweets WHERE description ="no walmart yes target";
+RA: π COUNT (*) γ COUNT (*) σ description = "no walmart yes target" tweets
+
+What are the most recent Walmart distribution center tweets?
+--> SELECT * FROM tweets WHERE description = "walmart distribution centre";
+RA: π * σ description = "walmart distribution centre" tweets
+
+What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
+--> SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
+RA: π COUNT (*) γ COUNT (*) σ hastags LIKE "%walfart%" tweets
+
+Who are the actors/influencers promoting deals involving Walmart gift cards?
+--> SELECT * FROM tweets WHERE description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description ="influencers" ;
+RA: π * σ description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description = "influencers" tweets
+
+How many people/tweets are pleased with Walmart?
+--> SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%' ;
+RA: π COUNT (*) γ COUNT (*) σ description = "walmart happy customers" OR hastags LIKE "%bestbuy%" tweets
+
+How many tweets about Walmart delivery are there?
+--> SELECT COUNT(*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
+RA: π COUNT (*) γ COUNT (*) σ description = "walmartdelivery" OR hastags = "#walmartdelivery" tweets
+
+How many customers are irritated when their order is lost or delivered late?
+--> SELECT COUNT(*) FROM tweets WHERE description LIKE '%latedelivery%' OR description LIKE '%lost%' AND hastags LIKE '%walfart%';
+RA: π COUNT (*) γ COUNT (*) σ description LIKE "%latedelivery%" OR (description LIKE "%lost%" AND hastags LIKE "%walfart%") tweets
+
+How many tweets have there been about #walmartsales?
+--> SELECT * FROM tweets WHERE hastags ="#walmartsales" ;
+RA: π * σ hastags = "#walmartsales" tweets
+
+How many tweets about Walmart delivery are there?
+--> SELECT COUNT(*) FROM tweets WHERE description = "walmart delivery";
+RA: π COUNT (*) γ COUNT (*) σ description = "walmart delivery" tweets
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+
+GROUP MEMBERS:
+
+Sneha Giranje (002785370)
+
+Arundhati Pathrikar (002780632)
+
+Sahil Gothoskar (002775631)
+
+
+PROJECT NAME/TOPIC :SALES
+
+Git Link - https://github.com/SahilGothoskar/Sales/tree/main/Twitter_Bot
