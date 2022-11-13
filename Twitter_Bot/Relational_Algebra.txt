@@ -9,3 +9,14 @@ What are the various hashtags related to walmart/sales?
 Which location has received the most tweets?
 --> SELECT location , COUNT(totaltweets) FROM tweets GROUP BY location DESC LIMIT=1;
 γ location, COUNT (totaltweets) tweets DESC LIMIT=1
+
+HP Pavilion product is tweeted the most in which location?
+--> SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
+τ location
+ π location, COUNT (totaltweets)
+  γ COUNT (totaltweets)
+   σ description LIKE "%HP Pavilion%" tweets LIMIT=1
+
+Which top 3 cities received the most gift cards?
+--> SELECT location, COUNT(*) FROM tweets WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
+γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
