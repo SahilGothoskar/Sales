@@ -250,44 +250,29 @@ Questions:
 
 
 
-Which location has received the most tweets?
+Which location has received the most tweets? 
 
+HP Pavilion product is tweeted the most in which location? 
 
-HP Pavilion product is tweeted the most in which location?
+What are the various hashtags related to walmart/sales? 
 
+How many tweets about Walmart delivery are there? 
 
-What are the various hashtags related to walmart/sales?
+How many people/tweets are pleased with Walmart? 
 
+What is the total number of tweets/people upset with Walmart using the hashtag #walfart? 
 
-How many tweets about Walmart delivery are there?
+How many tweets have there been about #walmartsales? 
 
+What are the most recent Walmart distribution center tweets? 
 
-How many people/tweets are pleased with Walmart?
+How many customers are moving from walmart to target? 
 
-
-What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
-
-
-How many tweets have there been about #walmartsales?
-
-
-What are the most recent Walmart distribution center tweets?
-
-
-How many customers are moving from walmart to target?
-
-
-How many customers are irritated when their order is lost or delivered late?
-
-
-Which city had the fewest tweets in 2018, and what hashtags were used there?
-
+How many customers are irritated when their order is lost or delivered late? 
 
 Which top 3 cities received the most gift cards?
 
-
 Who are the actors/influencers promoting deals involving Walmart gift cards?
-
 
 Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
 
@@ -339,9 +324,9 @@ How many people/tweets are pleased with Walmart?
 --> SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%' ;
 RA: π COUNT (*) γ COUNT (*) σ description = "walmart happy customers" OR hastags LIKE "%bestbuy%" tweets
 
-How many tweets about Walmart delivery are there?
---> SELECT COUNT(*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
-RA: π COUNT (*) γ COUNT (*) σ description = "walmartdelivery" OR hastags = "#walmartdelivery" tweets
+What are the tweets about Walmart delivery are there?
+--> SELECT (*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
+RA: π *  σ  hastags = "#walmartdelivery" tweets
 
 How many customers are irritated when their order is lost or delivered late?
 --> SELECT COUNT(*) FROM tweets WHERE description LIKE '%latedelivery%' OR description LIKE '%lost%' AND hastags LIKE '%walfart%';
@@ -358,15 +343,18 @@ RA: π COUNT (*) γ COUNT (*) σ description = "walmart delivery" tweets
 
 -------------------------------------------------------------------------------------------------------------------------------
 
+UML: https://github.com/SahilGothoskar/Sales/blob/main/Twitter_Bot/UML.pdf
 
-
+-----------------------------------------------------------------------------------------------------------------------------
+===============
 GROUP MEMBERS:
-
+===============
 Sneha Giranje (002785370)
 
 Arundhati Pathrikar (002780632)
 
 Sahil Gothoskar (002775631)
+
 
 
 PROJECT NAME/TOPIC :SALES
