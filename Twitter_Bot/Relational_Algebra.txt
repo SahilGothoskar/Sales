@@ -31,3 +31,7 @@ RQ: π * σ description = "walmart distribution centre" tweets
 What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
 --> SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
 RQ: π COUNT (*) γ COUNT (*) σ hastags LIKE "%walfart%" tweets
+
+Who are the actors/influencers promoting deals involving Walmart gift cards?
+--> SELECT * FROM tweets WHERE description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description ="influencers" ;
+RQ: π * σ description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description = "influencers" tweets
