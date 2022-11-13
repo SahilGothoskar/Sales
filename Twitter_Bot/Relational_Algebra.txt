@@ -2,36 +2,40 @@ Relation Query:
 
 What are the various hashtags related to walmart/sales?
 --> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
-RQ:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
+RA:  π COUNT (\delta hastags)  γ COUNT (\delta hastags) σ description = "walmartsales" tweets
 
 Which location has received the most tweets?
 --> SELECT location , COUNT(totaltweets) FROM tweets GROUP BY location DESC LIMIT=1;
-RQ: γ location, COUNT (totaltweets) tweets DESC LIMIT=1
+RA: γ location, COUNT (totaltweets) tweets DESC LIMIT=1
 
 HP Pavilion product is tweeted the most in which location?
 --> SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
-RQ: τ location  π location, COUNT (totaltweets) γ COUNT (totaltweets) σ description LIKE "%HP Pavilion%" tweets LIMIT=1
+RA: τ location  π location, COUNT (totaltweets) γ COUNT (totaltweets) σ description LIKE "%HP Pavilion%" tweets LIMIT=1
 
 Which top 3 cities received the most gift cards?
 --> SELECT location, COUNT(*) FROM tweets WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
-RQ: γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
+RA: γ location, COUNT(*) σ description LIKE "%win%" OR description LIKE "%offer%" tweets 
 
 Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
 --> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
-RQ: τ totaltweets π username, COUNT (totaltweets) γ COUNT (totaltweets) tweets LIMIT=3
+RA: τ totaltweets π username, COUNT (totaltweets) γ COUNT (totaltweets) tweets LIMIT=3
 
 How many customers are moving from walmart to target?
 --> SELECT COUNT(*) FROM tweets WHERE description ="no walmart yes target";
-RQ: π COUNT (*) γ COUNT (*) σ description = "no walmart yes target" tweets
+RA: π COUNT (*) γ COUNT (*) σ description = "no walmart yes target" tweets
 
 What are the most recent Walmart distribution center tweets?
 --> SELECT * FROM tweets WHERE description = "walmart distribution centre";
-RQ: π * σ description = "walmart distribution centre" tweets
+RA: π * σ description = "walmart distribution centre" tweets
 
 What is the total number of tweets/people upset with Walmart using the hashtag #walfart?
 --> SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
-RQ: π COUNT (*) γ COUNT (*) σ hastags LIKE "%walfart%" tweets
+RA: π COUNT (*) γ COUNT (*) σ hastags LIKE "%walfart%" tweets
 
 Who are the actors/influencers promoting deals involving Walmart gift cards?
 --> SELECT * FROM tweets WHERE description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description ="influencers" ;
-RQ: π * σ description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description = "influencers" tweets
+RA: π * σ description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description = "influencers" tweets
+
+How many people/tweets are pleased with Walmart?
+--> SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%' ;
+RA: π COUNT (*) γ COUNT (*) σ description = "walmart happy customers" OR hastags LIKE "%bestbuy%" tweets
