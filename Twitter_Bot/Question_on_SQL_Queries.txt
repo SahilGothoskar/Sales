@@ -3,9 +3,7 @@ Questions -
 
 Which location has received the most tweets?
 
-Which product is the most popular in a particular location?
-
-Which of the following people is a frequent Walmart customer and frequently tweets about Walmart?
+HP Pavilion product is tweeted the most in which location?
 
 What are the various hashtags related to walmart/sales?
 
@@ -19,17 +17,18 @@ How many tweets have there been about #walmartsales?
 
 What are the most recent Walmart distribution center tweets?
 
-In which city have the most tweets been sent in the last 24 hours?
+How many customers are moving from walmart to target?
 
 How many customers are irritated when their order is lost or delivered late?
 
 Which city had the fewest tweets in 2018, and what hashtags were used there?
 
-Which city received the most gift cards in which year?
+Which top 3 cities received the most gift cards?
 
 Who are the actors/influencers promoting deals involving Walmart gift cards?
 
-Who was the most influential person who tweeted about Walmart between 2016 and 2022?
+Which of the following people are top 3 Walmart customer who frequently tweet about Walmart?
+
 
 
 GROUP MEMBERS:
