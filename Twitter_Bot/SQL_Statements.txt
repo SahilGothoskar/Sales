@@ -14,11 +14,11 @@ retweetcount INTEGER NOT NULL,
 text VARCHAR NOT NULL,
 hastags VARCHAR NOT NULL)
 
-2.How many tweets about Walmart delivery are there?
-SELECT COUNT(*) FROM tweets WHERE description = "walmart delivery";
+2.What are tweets about Walmart delivery ?
+SELECT (*) FROM tweets WHERE description = "walmart delivery";
 
 3.How many tweets have there been about #walmartsales? 
-SELECT * FROM tweets WHERE hastags ="#walmartsales" ;
+SELECT COUNT (*) FROM tweets WHERE hastags ="#walmartsales" ;
 
 4.What are the various hashtags related to walmart/sales? 
 SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 

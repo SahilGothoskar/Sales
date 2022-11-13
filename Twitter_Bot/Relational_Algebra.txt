@@ -52,6 +52,6 @@ How many tweets have there been about #walmartsales?
 --> SELECT * FROM tweets WHERE hastags ="#walmartsales" ;
 RA: π * σ hastags = "#walmartsales" tweets
 
-How many tweets about Walmart delivery are there?
---> SELECT COUNT(*) FROM tweets WHERE description = "walmart delivery";
-RA: π COUNT (*) γ COUNT (*) σ description = "walmart delivery" tweets
+What are tweets about Walmart delivery ?
+--> SELECT (*) FROM tweets WHERE description = "walmart delivery";
+RA: π  (*)  σ description = "walmart delivery" tweets
