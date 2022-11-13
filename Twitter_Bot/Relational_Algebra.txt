@@ -1,4 +1,4 @@
-Relation Query:
+Relation Algrabra:
 
 What are the various hashtags related to walmart/sales?
 --> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
@@ -39,3 +39,19 @@ RA: π * σ description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND desc
 How many people/tweets are pleased with Walmart?
 --> SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%' ;
 RA: π COUNT (*) γ COUNT (*) σ description = "walmart happy customers" OR hastags LIKE "%bestbuy%" tweets
+
+How many tweets about Walmart delivery are there?
+--> SELECT COUNT(*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
+RA: π COUNT (*) γ COUNT (*) σ description = "walmartdelivery" OR hastags = "#walmartdelivery" tweets
+
+How many customers are irritated when their order is lost or delivered late?
+--> SELECT COUNT(*) FROM tweets WHERE description LIKE '%latedelivery%' OR description LIKE '%lost%' AND hastags LIKE '%walfart%';
+RA: π COUNT (*) γ COUNT (*) σ description LIKE "%latedelivery%" OR (description LIKE "%lost%" AND hastags LIKE "%walfart%") tweets
+
+How many tweets have there been about #walmartsales?
+--> SELECT * FROM tweets WHERE hastags ="#walmartsales" ;
+RA: π * σ hastags = "#walmartsales" tweets
+
+How many tweets about Walmart delivery are there?
+--> SELECT COUNT(*) FROM tweets WHERE description = "walmart delivery";
+RA: π COUNT (*) γ COUNT (*) σ description = "walmart delivery" tweets
