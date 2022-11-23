@@ -17,7 +17,7 @@ def printtweetdata(n, ith_tweet):
 		print(f"Total Tweets:{ith_tweet[5]}")
 		print(f"Retweet Count:{ith_tweet[6]}")
 		print(f"Tweet Text:{ith_tweet[7]}")
-		print(f"Hashtags Used:{ith_tweet[8]}
+		print(f"Hashtags Used:{ith_tweet[8]}"}
 		print(f"Created At:{ith_tweet[9]}")
 
 
