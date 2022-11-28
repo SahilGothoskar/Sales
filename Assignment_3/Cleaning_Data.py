@@ -81,37 +81,7 @@ missing_cols(walmart)
 print (walmart)
 
 #Cleaned Data Inserted into CSV
-csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned.csv', index = False)
-
-
-#Dataset 2
-walmart_path_1 = 'D:\DMDD\Assignment 3\Walmart.csv'
-
-walmart_ori_1 = pd.read_csv(walmart_path_1)
-walmart_1 = walmart_ori_1.copy()
-
-walmart_1.head()
-
-walmart_1.info()
-
-#Function to fetch missing values from Dataset 1
-def missing_cols(walmart_1):
-    '''prints out columns with its amount of missing values'''
-    total = 0
-    for col in walmart_1.columns:
-        missing_vals = walmart_1[col].isnull().sum()
-        total += missing_vals
-        if missing_vals != 0:
-            print(f"{col} => {walmart_1[col].isnull().sum()}")
-    
-    if total == 0:
-        print("no missing values left")
-
-missing_cols(walmart_1)
-
-
-
-
+csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned_1.csv', index = False)
 
 
 # Import required modules
@@ -186,4 +156,95 @@ connection.commit()
 connection.close()
 
 
-            
+
+#Dataset 2
+walmart_path_1 = 'D:\DMDD\Assignment 3\Walmart.csv'
+
+walmart_ori_1 = pd.read_csv(walmart_path_1)
+walmart_1 = walmart_ori_1.copy()
+
+walmart_1.head()
+
+walmart_1.info()
+
+#Function to fetch missing values from Dataset 1
+def missing_cols(walmart_1):
+    '''prints out columns with its amount of missing values'''
+    total = 0
+    for col in walmart_1.columns:
+        missing_vals = walmart_1[col].isnull().sum()
+        total += missing_vals
+        if missing_vals != 0:
+            print(f"{col} => {walmart_1[col].isnull().sum()}")
+    
+    if total == 0:
+        print("no missing values left")
+
+missing_cols(walmart_1)
+
+# Connecting to the geeks database
+connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
+
+# Creating a cursor object to execute
+# SQL queries on a database table
+cursor = connection.cursor()
+
+# Table Definition
+create_table = '''CREATE TABLE IF NOT EXISTS employment (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+                Store INTEGER NOT NULL,
+                Date INTEGER NOT NULL,
+                Weekly_Sales INTEGER NOT NULL,	
+                Holiday_Flag INTEGER NOT NULL,
+                Temperature	INTEGER NOT NULL,
+                Fuel_Price INTEGER NOT NULL,
+                CPI INTEGER NOT NULL,
+                Unemployment INTEGER NOT NULL
+				);
+				'''
+
+# Creating the table into our
+# database
+cursor.execute(create_table)
+
+# Opening the tweets-records.csv file
+file = open('D:\DMDD\Assignment 3\Walmart.csv' , errors='ignore')
+
+# Reading the contents of the
+# tweets-records.csv file
+contents = csv.reader(file)
+
+
+
+# SQL query to insert data into the
+# tweets table
+insert_records = "INSERT INTO employment (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
+
+# Importing the contents of the file
+# into our tweets table
+cursor.executemany(insert_records, contents)
+
+# SQL query to retrieve all data from
+# the person table To verify that the
+# data of the csv file has been successfully
+# inserted into the table
+# Change Table to tweets after the SQL
+select_all = "SELECT * FROM employment"
+rows = cursor.execute(select_all).fetchall()
+
+# Output to the console screen
+for r in rows:
+    print(r)
+
+# Committing the changes
+connection.commit()
+
+# closing the database connection
+connection.close()
+
+
+
+
+
+
+
