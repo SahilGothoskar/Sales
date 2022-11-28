@@ -73,8 +73,10 @@ walmart['DaysOnMarket'].ffill(inplace=True)
 walmart['NegativeEquity'].ffill(inplace=True)
 walmart['NegativeEquity'].ffill(inplace=True)
 
-
+#DF Post Cleaning
 missing_cols(walmart)
+
+
 #Cleaned DF 1
 print (walmart)
 
@@ -106,4 +108,82 @@ def missing_cols(walmart_1):
         print("no missing values left")
 
 missing_cols(walmart_1)
+
+
+
+
+
+
+# Import required modules
+import csv
+import sqlite3
+
+# Connecting to the geeks database
+connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
+
+# Creating a cursor object to execute
+# SQL queries on a database table
+cursor = connection.cursor()
+
+# Table Definition
+create_table = '''CREATE TABLE walmart (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+                RegionType VARCHAR NOT NULL, 
+                RegionName VARCHAR NOT NULL, 
+                City VARCHAR NOT NULL, 
+                State VARCHAR NOT NULL, 
+                Metro VARCHAR NOT NULL, 
+                SizeRank INTEGER NOT NULL, 
+                MarketHealthIndex INTEGER NOT NULL, 
+                SellForGain INTEGER NOT NULL, 
+                ZHVI INTEGER NOT NULL, 
+                MoM INTEGER NOT NULL, 
+                YoY INTEGER NOT NULL, 
+                ForecastYoYPctChange INTEGER NOT NULL, 
+                NegativeEquity INTEGER NOT NULL, 
+                Delinquency INTEGER NOT NULL,
+                DaysOnMarket INTEGER NOT NULL
+				);
+				'''
+
+# Creating the table into our
+# database
+cursor.execute(create_table)
+
+# Opening the tweets-records.csv file
+file = open('D:\DMDD\Assignment 3\Cleaned.csv' , errors='ignore')
+
+# Reading the contents of the
+# tweets-records.csv file
+contents = csv.reader(file)
+
+
+
+# SQL query to insert data into the
+# tweets table
+insert_records = "INSERT INTO walmart (RegionType, RegionName,	City,	State,	Metro,	SizeRank,	MarketHealthIndex,	SellForGain,	ZHVI,	MoM,	YoY,	ForecastYoYPctChange, NegativeEquity, Delinquency,	DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+# Importing the contents of the file
+# into our tweets table
+cursor.executemany(insert_records, contents)
+
+# SQL query to retrieve all data from
+# the person table To verify that the
+# data of the csv file has been successfully
+# inserted into the table
+# Change Table to tweets after the SQL
+select_all = "SELECT * FROM walmart"
+rows = cursor.execute(select_all).fetchall()
+
+# Output to the console screen
+for r in rows:
+    print(r)
+
+# Committing the changes
+connection.commit()
+
+# closing the database connection
+connection.close()
+
+
             
