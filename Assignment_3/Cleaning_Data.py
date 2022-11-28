@@ -28,19 +28,3 @@ def missing_cols(walmart):
 missing_cols(walmart)
 
 
-import csv
-import pandas as pd
-
-csv.register_dialect('myDialect', delimiter=' ', doublequote=True, quoting=csv.QUOTE_NONE, skipinitialspace='True')
-
-f = open("D:\DMDD\Assignment 3\myCity.csv", 'r')
-f = f.read().replace('“', '').replace('”', '').splitlines()
-normal = csv.reader(f, dialect='myDialect')
-
-for data in normal:
-    print(data, len(data))
-
-df = pd.DataFrame(normal.data,
-                  columns = normal.feature_names)
-
-display(df)
