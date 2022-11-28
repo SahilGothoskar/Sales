@@ -81,7 +81,7 @@ missing_cols(walmart)
 print (walmart)
 
 #Cleaned Data Inserted into CSV
-csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned.csv', index = True)
+csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned.csv', index = False)
 
 
 #Dataset 2
@@ -126,7 +126,7 @@ connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
 cursor = connection.cursor()
 
 # Table Definition
-create_table = '''CREATE TABLE walmart (
+create_table = '''CREATE TABLE IF NOT EXISTS walmart (
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
                 RegionType VARCHAR NOT NULL, 
                 RegionName VARCHAR NOT NULL, 
