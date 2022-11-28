@@ -25,6 +25,26 @@ def missing_cols(walmart):
     if total == 0:
         print("no missing values left")
             
+#Missing Columns Values in Walmart Dataframe            
 missing_cols(walmart)
 
+def perc_missing(walmart):
+    '''prints out columns with missing values with its %'''
+    for col in walmart.columns:
+        pct = walmart[col].isna().mean() * 100
+        if (pct != 0):
+            print('{} => {}%'.format(col, round(pct, 2)))
 
+#Percentage Wise Missing Values
+perc_missing(walmart)
+
+# Drop unnecessary columns that are not important
+colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
+
+walmart.drop(colsToDrop, axis=1, inplace=True)
+
+#Missing Values Redefined
+missing_cols(walmart)
+
+#Percentage Wise Missing Values
+perc_missing(walmart)
