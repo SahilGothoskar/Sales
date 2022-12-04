@@ -21,19 +21,24 @@ Step 2: Clean the csv files using the python script Cleaning_Data.py
 ```sh
 python Cleaning_Data.py
 vi Cleaning_Data.py
+
+
 import pandas as pd
 import numpy as np
 
-#import matplotlib.pyplot as plt
+
 
 #Dataset 1
 walmart_path = 'D:\DMDD\Assignment 3\TEST\myCity_1_8.csv'
 
+#Converting Dataset into dataframe using Pandas
 walmart_ori = pd.read_csv(walmart_path)
 walmart = walmart_ori.copy()
 
+#Head function which gives us a peek into the data
 walmart.head()
 
+#Info function gives data types and rest info regarding the data.
 walmart.info()
 
 #Function to fetch missing values from Dataset 1
@@ -62,11 +67,6 @@ def perc_missing(walmart):
 #Percentage Wise Missing Values
 perc_missing(walmart)
 
-# Drop unnecessary columns that are not important
-#colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
-
-#walmart.drop(colsToDrop, axis=1, inplace=True)
-
 #Missing Values Redefined
 missing_cols(walmart)
 
@@ -94,10 +94,11 @@ csv_data = walmart.to_csv('D:\DMDD\Assignment 3\TEST\Cleaned.csv', index = False
 
 
 # Import required modules
+
 import csv
 import sqlite3
 
-# Connecting to the geeks database
+# Connecting to the Cleaned database
 connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
 
 # Creating a cursor object to execute
@@ -118,32 +119,24 @@ create_table = '''CREATE TABLE IF NOT EXISTS walmart (
 				);
 				'''
 
-# Creating the table into our
-# database
+# Creating the table into our database
 cursor.execute(create_table)
 
-# Opening the tweets-records.csv file
+# Opening the Cleaned.csv file
 file = open('D:\DMDD\Assignment 3\TEST\Cleaned.csv' , errors='ignore')
 
-# Reading the contents of the
-# tweets-records.csv file
+# Reading the contents of the Cleaned.csv file
 contents = csv.reader(file)
 
 
-
-# SQL query to insert data into the
-# tweets table
+# SQL query to insert data into the walmart table
 insert_records = "INSERT INTO walmart (RegionType, RegionName,	City,	State,	Metro,	SizeRank,	MarketHealthIndex,	SellForGain) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
 
-# Importing the contents of the file
-# into our tweets table
+# Importing the contents of the file into our walmart table
 cursor.executemany(insert_records, contents)
 
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-# Change Table to tweets after the SQL
+# SQL query to retrieve all data from  the person table To verify that the  data of the csv file has been successfully  inserted into the table
+# Change Table to walmart after the SQL
 select_all = "SELECT * FROM walmart"
 rows = cursor.execute(select_all).fetchall()
 
@@ -228,8 +221,10 @@ missing_cols(walmart_1)
 #Cleaned DF 1
 print (walmart_1)
 
+#Converting DataFrame to CSV
 csv_data = walmart_1.to_csv('D:\DMDD\Assignment 3\TEST\Cleaned_1.csv', index = False)
-# Connecting to the geeks database
+
+# Connecting to the Cleaned database
 connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
 
 # Creating a cursor object to execute
@@ -249,32 +244,24 @@ create_table = '''CREATE TABLE IF NOT EXISTS services (
 				);
 				'''
 
-# Creating the table into our
-# database
+# Creating the table into our  database
 cursor.execute(create_table)
 
-# Opening the tweets-records.csv file
+# Opening the Cleaned_1.csv file
 file = open('D:\DMDD\Assignment 3\TEST\Cleaned_1.csv' , errors='ignore')
 
-# Reading the contents of the
-# tweets-records.csv file
+# Reading the contents of the Cleaned_1.csv file
 contents = csv.reader(file)
 
 
-
-# SQL query to insert data into the
-# tweets table
+# SQL query to insert data into the services table
 insert_records = "INSERT INTO services (ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?)"
 
-# Importing the contents of the file
-# into our tweets table
+# Importing the contents of the file  into our tweets table
 cursor.executemany(insert_records, contents)
 
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-# Change Table to tweets after the SQL
+# SQL query to retrieve all data from  the person table To verify that the data of the csv file has been successfully inserted into the table
+# Change Table to services after the SQL
 select_all = "SELECT * FROM services"
 rows = cursor.execute(select_all).fetchall()
 
@@ -314,11 +301,10 @@ def missing_cols(walmart_2):
 
 missing_cols(walmart_2)
 
-# Connecting to the geeks database
+# Connecting to the Cleaned database
 connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
 
-# Creating a cursor object to execute
-# SQL queries on a database table
+# Creating a cursor object to execute SQL queries on a database table
 cursor = connection.cursor()
 
 # Table Definition
@@ -335,31 +321,22 @@ create_table = '''CREATE TABLE IF NOT EXISTS employment (
 				);
 				'''
 
-# Creating the table into our
-# database
+# Creating the table into our database
 cursor.execute(create_table)
 
-# Opening the tweets-records.csv file
+# Opening the Walmart.csv file
 file = open('D:\DMDD\Assignment 3\Walmart.csv' , errors='ignore')
 
-# Reading the contents of the
-# tweets-records.csv file
+# Reading the contents of the Walmart.csv file
 contents = csv.reader(file)
 
-
-
-# SQL query to insert data into the
-# tweets table
+# SQL query to insert data into the employment table
 insert_records = "INSERT INTO employment (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
 
-# Importing the contents of the file
-# into our tweets table
+# Importing the contents of the file into our employment table
 cursor.executemany(insert_records, contents)
 
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
+# SQL query to retrieve all data from the person table To verify that the data of the csv file has been successfully inserted into the table
 # Change Table to tweets after the SQL
 select_all = "SELECT * FROM employment"
 rows = cursor.execute(select_all).fetchall()
@@ -373,12 +350,6 @@ connection.commit()
 
 # closing the database connection
 connection.close()
-
-
-
-
-
-
 
 
 
