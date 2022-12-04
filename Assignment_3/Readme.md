@@ -354,55 +354,57 @@ connection.close()
 
 
 ```
+
 ## Use Cases and SQL Queries
 
 ```sh 
+
 1.Find total weekly sales of each store.
-SELECT Store , Weekly_Sales as Total_weeklysales FROM Walmart_DB GROUP BY Store;
+SQL-->  SELECT Store , Weekly_Sales as Total_weeklysales FROM Walmart_DB GROUP BY Store;
 
 2.Find dates on which Walmart store had Fuel_Price > 3.5 and Holiday_Flag was 0
-SELECT Store, Date , Fuel_Price, Holiday_Flag FROM Walmart_DB WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
+SQL-->  SELECT Store, Date , Fuel_Price, Holiday_Flag FROM Walmart_DB WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
 
 3.Select min of Unemployment of store 1 and sales between 1542561.09 and 1606629.58 
-SELECT MIN(Unemployment), Store from Walmart_DB WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
+SQL-->  SELECT MIN(Unemployment), Store from Walmart_DB WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
 
 4.Find average weekly sales of each store.
-SELECT AVG(Weekly_Sales), Store from Walmart_DB GROUP BY Store;
+SQL-->  SELECT AVG(Weekly_Sales), Store from Walmart_DB GROUP BY Store;
 
 5.list the number of customers in each country. Only include STORES with less than 3 Holiday_flag
-SELECT Store, COUNT(Holiday_Flag) FROM Walmart_DB GROUP BY Store HAVING COUNT(Holiday_Flag) <3;
+SQL-->  SELECT Store, COUNT(Holiday_Flag) FROM Walmart_DB GROUP BY Store HAVING COUNT(Holiday_Flag) <3;
 
 6.Show all the DaysOnMarket where CITY is New York
-SELECT City1_db.RegionName, City1_db.City, City2_db.DaysOnMarket  from  City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City =“New York”;
+SQL-->  SELECT City1_db.RegionName, City1_db.City, City2_db.DaysOnMarket  from  City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City =“New York”;
 
 7.Finding out Maximum SizeRank, RegionName, City where DaysOnMarket=106
-SELECT City1_db.SizeRank, City1_db.RegionName, City1_db.City, City2_db.DaysOnMarket from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.SizeRank=(SELECT MAX(SizeRank) from City1_db) AND WHERE City2_db.DaysOnMarket=106;
+SQL-->  SELECT City1_db.SizeRank, City1_db.RegionName, City1_db.City, City2_db.DaysOnMarket from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.SizeRank=(SELECT MAX(SizeRank) from City1_db) AND WHERE City2_db.DaysOnMarket=106;
 
 8.Finding cities and region where PrevForeclosed < ForeclosureRatio
-SELECT City1_db.RegionName, City1_db.City, City2_db.PrevForeclosed, City2_db.ForeclosureRatio from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE  City2_db.PrevForeclosed < City2_db.ForeclosureRatio;
+SQL-->  SELECT City1_db.RegionName, City1_db.City, City2_db.PrevForeclosed, City2_db.ForeclosureRatio from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE  City2_db.PrevForeclosed < City2_db.ForeclosureRatio;
 
 9.Show all cities an regions with any DaysOnMarket they might have
-SELECT City1_db.RegionName, City1_db.City,  City2_db.DaysOnMarket FROM City1_db LEFT JOIN City2_db ON City1_db.city1id = City2_db.city2id;
+SQL-->  SELECT City1_db.RegionName, City1_db.City,  City2_db.DaysOnMarket FROM City1_db LEFT JOIN City2_db ON City1_db.city1id = City2_db.city2id;
 
 10.Show all cities, regions, state with All DaysOnMarket in the table
-SELECT City1_db.RegionName, City1_db.City, City1_db.State, City2_db.DaysOnMarket FROM City1_db FULL OUTER JOIN City2_db ON City1_db.city1id = City2_db.city2id;
+SQL-->  SELECT City1_db.RegionName, City1_db.City, City1_db.State, City2_db.DaysOnMarket FROM City1_db FULL OUTER JOIN City2_db ON City1_db.city1id = City2_db.city2id;
 
 11.Show the list of NegativeEquity, Delinquency, regions in Massachusetts state and city is Boston 
-SELECT City1_db.RegionName, City1_db.City, City2_db.NegativeEquity, City2_db.Delinquency  from  City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City =“Boston”;
+SQL-->  SELECT City1_db.RegionName, City1_db.City, City2_db.NegativeEquity, City2_db.Delinquency  from  City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City =“Boston”;
 
 12.Finding out Maximum SellForGain, RegionName, City where ZHVI >= 695600
-SELECT City1_db.SellForGain, City1_db.RegionName, City1_db.City, City2_db. ZHVI from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.SellForGain=(SELECT MAX(SellForGain) from City1_db) AND City2_db. ZHVI =106;
+SQL-->  SELECT City1_db.SellForGain, City1_db.RegionName, City1_db.City, City2_db. ZHVI from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.SellForGain=(SELECT MAX(SellForGain) from City1_db) AND City2_db. ZHVI =106;
 
 
 13.Show DaysOnMarket in each state
-SELECT City1_db.State, SUM(City2_db.DaysOnMarket) from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id GROUP BY City1_db.State;
+SQL-->  SELECT City1_db.State, SUM(City2_db.DaysOnMarket) from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id GROUP BY City1_db.State;
 
 
 14.Select store which has the highest weekly sale on this 05-02-2010 date
-SELECT Store, Weekly_Sales, Date from Walmart_db where Date= “05-02-2010”  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from Walmart_db );
+SQL-->  SELECT Store, Weekly_Sales, Date from Walmart_db where Date= “05-02-2010”  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from Walmart_db );
 
 15.Finding out Minimum MarketHealthIndex, RegionName, City where MoM=0.872219799389446
-SELECT City1_db.MarketHealthIndex, City1_db.RegionName, City1_db.City, City2_db.MoM from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.MarketHealthIndex=(SELECT MIN(MarketHealthIndex) from City1_db) AND WHERE City2_db.MoM=0.872219799389446;
+SQL-->  SELECT City1_db.MarketHealthIndex, City1_db.RegionName, City1_db.City, City2_db.MoM from City1_db INNER JOIN City2_db ON City1_db.city1id = City2_db.city2id WHERE City1_db.MarketHealthIndex=(SELECT MIN(MarketHealthIndex) from City1_db) AND WHERE City2_db.MoM=0.872219799389446;
 
 ```
 
