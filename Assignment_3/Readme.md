@@ -27,7 +27,7 @@ import numpy as np
 #import matplotlib.pyplot as plt
 
 #Dataset 1
-walmart_path = 'D:\DMDD\Assignment 3\myCity.csv'
+walmart_path = 'D:\DMDD\Assignment 3\TEST\myCity_1_8.csv'
 
 walmart_ori = pd.read_csv(walmart_path)
 walmart = walmart_ori.copy()
@@ -63,9 +63,9 @@ def perc_missing(walmart):
 perc_missing(walmart)
 
 # Drop unnecessary columns that are not important
-colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
+#colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
 
-walmart.drop(colsToDrop, axis=1, inplace=True)
+#walmart.drop(colsToDrop, axis=1, inplace=True)
 
 #Missing Values Redefined
 missing_cols(walmart)
@@ -81,20 +81,6 @@ walmart['SizeRank'].bfill(inplace=True)
 walmart['SizeRank'].ffill(inplace=True)
 walmart['SellForGain'].bfill(inplace=True)
 walmart['SellForGain'].ffill(inplace=True)
-walmart['ZHVI'].bfill(inplace=True)
-walmart['ZHVI'].ffill(inplace=True)
-walmart['MoM'].bfill(inplace=True)
-walmart['MoM'].ffill(inplace=True)
-walmart['ForecastYoYPctChange'].ffill(inplace=True)
-walmart['ForecastYoYPctChange'].bfill(inplace=True)
-walmart['YoY'].ffill(inplace=True)
-walmart['YoY'].ffill(inplace=True)
-walmart['Delinquency'].ffill(inplace=True)
-walmart['Delinquency'].ffill(inplace=True)
-walmart['DaysOnMarket'].ffill(inplace=True)
-walmart['DaysOnMarket'].ffill(inplace=True)
-walmart['NegativeEquity'].ffill(inplace=True)
-walmart['NegativeEquity'].ffill(inplace=True)
 
 #DF Post Cleaning
 missing_cols(walmart)
@@ -104,7 +90,7 @@ missing_cols(walmart)
 print (walmart)
 
 #Cleaned Data Inserted into CSV
-csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned_1.csv', index = False)
+csv_data = walmart.to_csv('D:\DMDD\Assignment 3\TEST\Cleaned.csv', index = False)
 
 
 # Import required modules
@@ -112,7 +98,7 @@ import csv
 import sqlite3
 
 # Connecting to the geeks database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
+connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
 
 # Creating a cursor object to execute
 # SQL queries on a database table
@@ -128,14 +114,7 @@ create_table = '''CREATE TABLE IF NOT EXISTS walmart (
                 Metro VARCHAR NOT NULL, 
                 SizeRank INTEGER NOT NULL, 
                 MarketHealthIndex INTEGER NOT NULL, 
-                SellForGain INTEGER NOT NULL, 
-                ZHVI INTEGER NOT NULL, 
-                MoM INTEGER NOT NULL, 
-                YoY INTEGER NOT NULL, 
-                ForecastYoYPctChange INTEGER NOT NULL, 
-                NegativeEquity INTEGER NOT NULL, 
-                Delinquency INTEGER NOT NULL,
-                DaysOnMarket INTEGER NOT NULL
+                SellForGain INTEGER NOT NULL 
 				);
 				'''
 
@@ -144,7 +123,7 @@ create_table = '''CREATE TABLE IF NOT EXISTS walmart (
 cursor.execute(create_table)
 
 # Opening the tweets-records.csv file
-file = open('D:\DMDD\Assignment 3\Cleaned.csv' , errors='ignore')
+file = open('D:\DMDD\Assignment 3\TEST\Cleaned.csv' , errors='ignore')
 
 # Reading the contents of the
 # tweets-records.csv file
@@ -154,7 +133,7 @@ contents = csv.reader(file)
 
 # SQL query to insert data into the
 # tweets table
-insert_records = "INSERT INTO walmart (RegionType, RegionName,	City,	State,	Metro,	SizeRank,	MarketHealthIndex,	SellForGain,	ZHVI,	MoM,	YoY,	ForecastYoYPctChange, NegativeEquity, Delinquency,	DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+insert_records = "INSERT INTO walmart (RegionType, RegionName,	City,	State,	Metro,	SizeRank,	MarketHealthIndex,	SellForGain) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
 
 # Importing the contents of the file
 # into our tweets table
@@ -181,7 +160,7 @@ connection.close()
 
 
 #Dataset 2
-walmart_path_1 = 'D:\DMDD\Assignment 3\Walmart.csv'
+walmart_path_1 = 'D:\DMDD\Assignment 3\TEST\mycity_8_16.csv'
 
 walmart_ori_1 = pd.read_csv(walmart_path_1)
 walmart_1 = walmart_ori_1.copy()
@@ -204,6 +183,136 @@ def missing_cols(walmart_1):
         print("no missing values left")
 
 missing_cols(walmart_1)
+
+
+def perc_missing(walmart_1):
+    '''prints out columns with missing values with its %'''
+    for col in walmart_1.columns:
+        pct = walmart_1[col].isna().mean() * 100
+        if (pct != 0):
+            print('{} => {}%'.format(col, round(pct, 2)))
+
+perc_missing(walmart_1)
+
+# Drop unnecessary columns that are not important
+colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
+
+walmart_1.drop(colsToDrop, axis=1, inplace=True)
+
+#Missing Values Redefined
+missing_cols(walmart_1)
+
+#Percentage Wise Missing Values
+perc_missing(walmart_1)
+
+# imputing with bfill or ffill
+walmart_1['ZHVI'].bfill(inplace=True)
+walmart_1['ZHVI'].ffill(inplace=True)
+walmart_1['MoM'].bfill(inplace=True)
+walmart_1['MoM'].ffill(inplace=True)
+walmart_1['ForecastYoYPctChange'].ffill(inplace=True)
+walmart_1['ForecastYoYPctChange'].bfill(inplace=True)
+walmart_1['YoY'].ffill(inplace=True)
+walmart_1['YoY'].ffill(inplace=True)
+walmart_1['Delinquency'].ffill(inplace=True)
+walmart_1['Delinquency'].ffill(inplace=True)
+walmart_1['DaysOnMarket'].ffill(inplace=True)
+walmart_1['DaysOnMarket'].ffill(inplace=True)
+walmart_1['NegativeEquity'].ffill(inplace=True)
+walmart_1['NegativeEquity'].ffill(inplace=True)
+
+#DF Post Cleaning
+missing_cols(walmart_1)
+
+
+#Cleaned DF 1
+print (walmart_1)
+
+csv_data = walmart_1.to_csv('D:\DMDD\Assignment 3\TEST\Cleaned_1.csv', index = False)
+# Connecting to the geeks database
+connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
+
+# Creating a cursor object to execute
+# SQL queries on a database table
+cursor = connection.cursor()
+
+# Table Definition
+create_table = '''CREATE TABLE IF NOT EXISTS services (
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+                ZHVI INTEGER NOT NULL, 
+                MoM INTEGER NOT NULL, 
+                YoY INTEGER NOT NULL, 
+                ForecastYoYPctChange INTEGER NOT NULL, 
+                NegativeEquity INTEGER NOT NULL, 
+                Delinquency INTEGER NOT NULL,
+                DaysOnMarket INTEGER NOT NULL
+				);
+				'''
+
+# Creating the table into our
+# database
+cursor.execute(create_table)
+
+# Opening the tweets-records.csv file
+file = open('D:\DMDD\Assignment 3\TEST\Cleaned_1.csv' , errors='ignore')
+
+# Reading the contents of the
+# tweets-records.csv file
+contents = csv.reader(file)
+
+
+
+# SQL query to insert data into the
+# tweets table
+insert_records = "INSERT INTO services (ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?)"
+
+# Importing the contents of the file
+# into our tweets table
+cursor.executemany(insert_records, contents)
+
+# SQL query to retrieve all data from
+# the person table To verify that the
+# data of the csv file has been successfully
+# inserted into the table
+# Change Table to tweets after the SQL
+select_all = "SELECT * FROM services"
+rows = cursor.execute(select_all).fetchall()
+
+# Output to the console screen
+for r in rows:
+    print(r)
+
+# Committing the changes
+connection.commit()
+
+# closing the database connection
+connection.close()
+
+
+#Dataset 3
+walmart_path_2 = 'D:\DMDD\Assignment 3\Walmart.csv'
+
+walmart_ori_2 = pd.read_csv(walmart_path_2)
+walmart_2 = walmart_ori_2.copy()
+
+walmart_2.head()
+
+walmart_2.info()
+
+#Function to fetch missing values from Dataset 1
+def missing_cols(walmart_2):
+    '''prints out columns with its amount of missing values'''
+    total = 0
+    for col in walmart_2.columns:
+        missing_vals = walmart_2[col].isnull().sum()
+        total += missing_vals
+        if missing_vals != 0:
+            print(f"{col} => {walmart_1[col].isnull().sum()}")
+    
+    if total == 0:
+        print("no missing values left")
+
+missing_cols(walmart_2)
 
 # Connecting to the geeks database
 connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
@@ -265,75 +374,15 @@ connection.commit()
 # closing the database connection
 connection.close()
 
+
+
+
+
+
+
+
+
 ```
-
-This will clean all the csv and handle all the NULL values.
-Step 3: Run SQL_Extraction_From_CSV_Load_DB.py  file to push cleaned data from csv to database.
-```sh
-import csv
-import sqlite3
-
-# Connecting to the geeks database
-connection = sqlite3.connect('Tweets_Extracted.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE tweets(
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				username VARCHAR NOT NULL,
-				description VARCHAR NOT NULL,
-				location VARCHAR NOT NULL,
-				following INTEGER NOT NULL,
-				followers INTEGER NOT NULL,
-				totaltweets INTEGER NOT NULL,
-				retweetcount INTEGER NOT NULL,
-				text VARCHAR NOT NULL,
-				hastags VARCHAR NOT NULL
-				);
-				'''
-
-# Creating the table into our
-# database
-cursor.execute(create_table)
-
-# Opening the tweets-records.csv file
-file = open('GFG_tweets.csv' , errors='ignore')
-
-# Reading the contents of the
-# tweets-records.csv file
-contents = csv.reader(file)
-
-
-
-# SQL query to insert data into the
-# tweets table
-insert_records = "INSERT INTO tweets (username, description, location, following, followers, totaltweets, retweetcount, text, hastags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file
-# into our tweets table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-select_all = "SELECT * FROM tweets"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-```
-
 ## Use Cases and SQL Queries
 
 
