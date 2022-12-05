@@ -14,8 +14,8 @@
 
 Step 1: Collect data from various sources. We have collected data form kaggle. There are 3 csv files as follows:
 - Walmart.csv
-- myCity.csv
-- myCity.csv
+- myCity_1_8.csv
+- myCity_8_16.csv
 
 Step 2: Clean the csv files using the python script Cleaning_Data.py
 ```sh
