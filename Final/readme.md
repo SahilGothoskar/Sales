@@ -5,40 +5,18 @@ Upload everything needed to run and use the database including, SQL, references,
 Code:
 
 All code must run and be well commented.
-
- 
-
  
 
 Grading Rubric:
 
- 
-
 The following breakdown will be used for determining the score for the Database project:
 
- 
+Assignment                    Points
 
-Assignment
-	
+SQl / ER-diagram               50
 
-Points
+Code     		       50
 
-SQl / ER-diagram
-	
+Presentation                   0 (No presentation this semester)
 
-50
-
-Code
-	
-
-50
-
-Presentation
-	
-
-0 (No presentation this semester)
-
-Database project quality
-	
-
-100
+Database project quality       100
