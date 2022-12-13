@@ -197,8 +197,15 @@ connection.commit()
 connection.close()
 
 ```
+### Table Giftcards:
 
-![]{./tweets_giftcards.png}
-![]{./tweets_table.png}
-![]{./tweets_delivery.png}
-![]{./tweets_fart.png}
+![](./tweets_giftcards.png)
+
+### Table Tweets:
+![](./tweets_table.png)
+
+### Table Delivery
+![](./tweets_delivery.png)
+
+### Table Fart
+![](./tweets_fart.png)
