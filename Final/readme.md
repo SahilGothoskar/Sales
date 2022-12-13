@@ -125,8 +125,10 @@ if __name__ == '__main__':
 		numtweet = 100
 		scrape(words, date_since, numtweet)
 		print('Scraping has completed!')
+```
 
+## Updating Database from CSV
 
-
+```sq
 
 ```
