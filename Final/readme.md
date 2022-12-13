@@ -460,9 +460,15 @@ connection.commit()
 connection.close()
 
 ```
+## Employment Table:
+The table is normalized and also its cleaned.
 
 ![](./employment.jpeg)
 
-![](./serviecs.jpeg)
+## Services Table:
+The table is normalized and also its cleaned.
+![](./services.jpeg)
 
+## Walmart Table:
+The table is normalized and also its cleaned.
 ![](./walmart.jpeg)
