@@ -119,3 +119,13 @@ VIEW--> CREATE VIEW weekly_sales AS SELECT Store, Weekly_Sales, Date from employ
 15. Finding out Minimum MarketHealthIndex, RegionName, City where MoM=1.00791936645068
 VIEW--> CREATE VIEW min_MHI AS SELECT walmart.MarketHealthIndex, walmart.RegionName, walmart.City, services.MoM from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE MarketHealthIndex=(SELECT MAX(MarketHealthIndex) from walmart) OR MoM= 1.00791936645068;
 
+
+
+Sneha Giranje (002785370)
+
+Arundhati Pathrikar (002780632)
+
+Sahil Gothoskar (002775631)
+
+Git: https://github.com/SahilGothoskar/Sales/tree/main/Normalization
+
