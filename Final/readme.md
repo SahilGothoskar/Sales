@@ -197,6 +197,10 @@ connection.commit()
 connection.close()
 
 ```
+### UML 
+
+![](./FinalUML.png)
+
 ### Table Giftcards:
 
 ![](./tweets_giftcards.png)
@@ -529,6 +533,10 @@ connection.commit()
 connection.close()
 
 ```
+## UML Diagram:
+
+![](./FinalUML1.png)
+
 ## Employment Table:
 The table is normalized and also its cleaned.
 
