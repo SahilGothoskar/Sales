@@ -4,6 +4,22 @@
 ### Walmart Table:
 Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
 - Primary key for this table is Walmart_Id
+#### 1st Normal Form
+- This table has one primary key which is walmart_id
+- No multi-value attributes in any columns of the table.
+- Two columns of this table do not store similar information.
+#### 2nd Normal Form
+- All requirements for 1st NF must be met. 
+- Since there is no redundant data in this table, there is no need to create a separate table.
+- The tables are related to each other by use of foreign key-services_id.
+#### 3rd Normal Form
+- All requirements for 2nd NF must be met. 
+- There are no fields in this table which do not depend on primary key of the table. 
+- There are no fields dependent on the primary key or any another field. 
+
+
+
+
 
 ![](./walmart.jpeg)
 
@@ -12,6 +28,22 @@ Walmart table contains different stores across different regions along with thei
 Services Table contains different store details like their ZHVI ,Mom, YoY
 - Primary key for this table is Services_ID
 - Foreign key for this table is Employment_Id
+#### 1st Normal Form
+- This table has one primary key which is services_id
+- No multi-value attributes in any columns of the table.
+- Two columns of this table do not store similar information.
+#### 2nd Normal Form
+- All requirements for 1st NF must be met. 
+- Since there is no redundant data in this table, there is no need to create a separate table.
+- The tables are related to each other by use of foreign key-walmart_id
+#### 3rd Normal Form
+- All requirements for 2nd NF must be met. 
+- There are no fields in this table which do not depend on primary key of the table. 
+- There are no fields dependent on the primary key or any another field. 
+
+
+
+
 
 ![](./services.jpeg)
 
@@ -20,6 +52,20 @@ Services Table contains different store details like their ZHVI ,Mom, YoY
 Employment Table contains different store details like their weekly sales,unemployment percent etc
 - Primary key for this table is Employment_Id
 - Foreign key for this table is Services_ID
+#### 1st Normal Form
+- This table has one primary key which is employment_id. 
+- No multi-value attributes in any columns of the table.
+- Two columns of this table do not store similar information.
+#### 2nd Normal Form
+- All requirements for 1st NF must be met. 
+- Since there is no redundant data in this table, there is no need to create a separate table.
+#### 3rd Normal Form
+- All requirements for 2nd NF must be met. 
+- There are no fields in this table which do not depend on primary key of the table.
+- There are no fields dependent on the primary key or any another field. 
+
+
+
 
 ![](./employment.jpeg)
 
