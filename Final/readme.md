@@ -4,19 +4,12 @@ Upload everything needed to run and use the database including, SQL, references,
 
 Code:
 
-All code must run and be well commented.
- 
+### Twitter Code
 
-Grading Rubric:
+```sq
 
-The following breakdown will be used for determining the score for the Database project:
 
-Assignment                    Points
 
-SQl / ER-diagram               50
 
-Code     		       50
 
-Presentation                   0 (No presentation this semester)
-
-Database project quality       100
+```
