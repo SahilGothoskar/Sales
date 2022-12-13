@@ -197,3 +197,8 @@ connection.commit()
 connection.close()
 
 ```
+
+![]{./tweets_giftcards.png}
+![]{./tweets_table.png}
+![]{./tweets_delivery.png}
+![]{./tweets_fart.png}
