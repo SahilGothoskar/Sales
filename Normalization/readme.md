@@ -1,4 +1,5 @@
-## NORMALIZATION OF WALMART SALES DATABASE
+# NORMALIZATION OF WALMART SALES DATABASE
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 ### Walmart Table:
 
