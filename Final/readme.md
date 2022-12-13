@@ -460,3 +460,9 @@ connection.commit()
 connection.close()
 
 ```
+
+![](./employment.jpeg)
+
+![](./serviecs.jpeg)
+
+![](./walmart.jpeg)
