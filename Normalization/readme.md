@@ -121,6 +121,8 @@ VIEW--> CREATE VIEW min_MHI AS SELECT walmart.MarketHealthIndex, walmart.RegionN
 
 
 
+
+
 Sneha Giranje (002785370)
 
 Arundhati Pathrikar (002780632)
