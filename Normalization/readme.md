@@ -2,14 +2,25 @@
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
 ### Walmart Table:
+Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
+- Primary key for this table is Walmart_Id
 
 ![](./walmart.jpeg)
 
+
 ### Services Table
+Services Table contains different store details like their ZHVI ,Mom, YoY
+- Primary key for this table is Services_ID
+- Foreign key for this table is Employment_Id
+
 ![](./services.jpeg)
 
 
 ### Employment Table
+Employment Table contains different store details like their weekly sales,unemployment percent etc
+- Primary key for this table is Employment_Id
+- Foreign key for this table is Services_ID
+
 ![](./employment.jpeg)
 
 
