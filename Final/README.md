@@ -698,7 +698,8 @@ connection.close()
 - Is there parking available at the specific retailer store?
 - Is self-checkout available at the store?
 
-
+### Views Created
+![](./views_created.png)
 
 
 
