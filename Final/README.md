@@ -664,39 +664,39 @@ connection.close()
 
 ### USE CASES:
 
-Which retailer has the highest sales?
-Which retailer's standard deviation is the highest
-Consequently, there are wide variations in sales.Likewise, determine the ratio of the mean to the standard deviation.
-Which retailer(s) has/have the best quarterly growth rate in Q3?
-Sales may suffer over certain holidays.Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
-Give insights and a monthly and semester snapshot of the sales in units.
-Which of the retailers is closest to public transportation and makes commuting easier?
-What other stores are located near the Walmart retailers? Because Walmart may lose some customers if they are drawn to other stores such as Target and Giant...
-A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
-What is the category in which Walmart sees the most customer traffic?
-Which retailer buys products from the farmers market?
-What is the most cost-effective logistics and shipping organization that can be considered in order to fulfill the restocking of goods?
-What's the attrition rate of employees in the Walmart retailer?
-What is the timetable / ETA for retailers to restock supplies?
-How long does the billing line typically wait?
-What standard has Walmart set for employee education while hiring?
-What is the typical employee happiness index based on employment?
-Does a retailer really work upon the customer feedback?
-What's the least time taken by the delivery vendors to ship the packages to the desired address?
-Do the retailers ship the package outside their jurisdiction? If not, why?
-What are the trivial requirements to get a membership of Walmart shops? Is SSN blocked to get a membership? If yes, how can it be avoided? As it might lose potential customers like students.
-Are the groceries made available with dietary allergies and other types of customers in mind? (Kosher, Vegan, Lactose Intolerant)
-Is the store easily accessible to people with disabilities, the elderly, and pregnant women?
-Do retailers develop marketing strategies?
-What percentage of goods expire or are thrown away because they are not purchased?
-What products do Walmart retailers lack? Why doesn't the retailer stock that genre/category?
-How many competitive retailer markets are available in the store's immediate vicinity? Does this have an impact on the store's sales?
-How many customers prefer to shop online rather than in the store?
-How frequently does the retailer need to advertise the store?
-How much of an impact does the advertisement have on sales?
-Is the retailer in a prime location in the city?
-Is there parking available at the specific retailer store?
-Is self-checkout available at the store?
+- Which retailer has the highest sales?
+- Which retailer's standard deviation is the highest
+- Consequently, there are wide variations in sales.Likewise, determine the ratio of the mean to the standard deviation.
+- Which retailer(s) has/have the best quarterly growth rate in Q3?
+- Sales may suffer over certain holidays.Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
+- Give insights and a monthly and semester snapshot of the sales in units.
+- Which of the retailers is closest to public transportation and makes commuting easier?
+- What other stores are located near the Walmart retailers? Because Walmart may lose some customers if they are drawn to other stores such as Target and Giant...
+- A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
+- What is the category in which Walmart sees the most customer traffic?
+- Which retailer buys products from the farmers market?
+- What is the most cost-effective logistics and shipping organization that can be considered in order to fulfill the restocking of goods?
+- What's the attrition rate of employees in the Walmart retailer?
+- What is the timetable / ETA for retailers to restock supplies?
+- How long does the billing line typically wait?
+- What standard has Walmart set for employee education while hiring?
+- What is the typical employee happiness index based on employment?
+- Does a retailer really work upon the customer feedback?
+- What's the least time taken by the delivery vendors to ship the packages to the desired address?
+- Do the retailers ship the package outside their jurisdiction? If not, why?
+- What are the trivial requirements to get a membership of Walmart shops? Is SSN blocked to get a membership? If yes, how can it be avoided? As it might lose potential customers like students.
+- Are the groceries made available with dietary allergies and other types of customers in mind? (Kosher, Vegan, Lactose Intolerant)
+- Is the store easily accessible to people with disabilities, the elderly, and pregnant women?
+- Do retailers develop marketing strategies?
+- What percentage of goods expire or are thrown away because they are not purchased?
+- What products do Walmart retailers lack? Why doesn't the retailer stock that genre/category?
+- How many competitive retailer markets are available in the store's immediate vicinity? Does this have an impact on the store's sales?
+- How many customers prefer to shop online rather than in the store?
+- How frequently does the retailer need to advertise the store?
+- How much of an impact does the advertisement have on sales?
+- Is the retailer in a prime location in the city?
+- Is there parking available at the specific retailer store?
+- Is self-checkout available at the store?
 
 
 
