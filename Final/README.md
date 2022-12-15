@@ -54,6 +54,23 @@ The table is normalized and also its cleaned.
 The table is normalized and also its cleaned.
 ![](./walmart.jpeg)
 
+### MAJOR USESCASES AND OUTPUT SNIPPETS
+![](./sql1.png)
+![](./sql2.png)
+![](./sql3.png)
+![](./sql4.png)
+![](./sql5.png)
+![](./sql6.png)
+![](./sql7.png)
+![](./sql8.png)
+![](./sql9.png)
+![](./sql10.png)
+![](./sql11.png)
+![](./sql12.png)
+![](./sql13.png)
+![](./sql14.png)
+![](./sql15.png)
+
 ### Use cases and creation of views
 ```sq
 VIEWS FOR THE USE CASES CREATED:
