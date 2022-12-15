@@ -30,9 +30,11 @@ WalMart Stores, Inc., is one of the most well-known and valuable brands in the w
 ### UML:
 
 UML Diagram for tables which were generated using data scraped from twitter.
+
 ![](./FinalUML.png)
 
 UML Diagram of the tables which were collected , cleaned and munged using python code.
+
 ![](./FinalUML1.png)
 
 ### Table Giftcards:
