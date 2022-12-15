@@ -76,6 +76,7 @@ Services Table contains different store details like their ZHVI ,Mom, YoY
 * Foreign key for this table is Employment_Id
 
 The table is normalized and also its cleaned.
+
 ![](./services.jpeg)
 
 ### Walmart Table:
@@ -165,7 +166,6 @@ VIEW --> CREATE VIEW min_MHI AS SELECT walmart.MarketHealthIndex, walmart.Region
 ### SQL Queries and Use cases
 
 ```sq
-
 1. Find total weekly sales of each store.
 SQL--> SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
 
@@ -402,7 +402,6 @@ if __name__ == '__main__':
 ## Updating Database from CSV
 
 ```sq
-
 # Import required modules
 import csv
 import sqlite3
@@ -473,7 +472,6 @@ connection.close()
 ## Python Code for Data Cleaning , Munging 
 
 ```sq
-
 import pandas as pd
 import numpy as np
 
