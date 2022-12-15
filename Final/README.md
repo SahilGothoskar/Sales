@@ -736,10 +736,23 @@ connection.close()
 - Is there parking available at the specific retailer store?
 - Is self-checkout available at the store?
 
-### All 15 Views Created
+### Outputs of all 15 views
 ![](./views_created.png)
-
-
+![](./sql/View-SS1.png)
+![](./sql/View-SS2.png)
+![](./sql/View-SS3.png)
+![](./sql/View-SS4.png)
+![](./sql/View-SS5.png)
+![](./sql/View-SS6.png)
+![](./sql/View-SS7.png)
+![](./sql/View-SS8.png)
+![](./sql/View-SS9.png)
+![](./sql/View-SS10.png)
+![](./sql/View-SS11.png)
+![](./sql/View-SS12.png)
+![](./sql/View-SS13.png)
+![](./sql/View-SS14.png)
+![](./sql/View-SS15.png)
 
 
 
