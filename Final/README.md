@@ -104,8 +104,6 @@ The table is normalized and also its cleaned.
 ### Use cases and creation of views
 
 ```sq
-
-
 1. Find total weekly sales of each store.
 VIEW --> CREATE VIEW  total_sales AS SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
 
