@@ -50,16 +50,26 @@ UML Diagram of the tables which were collected , cleaned and munged using python
 ![](./tweets_fart.png)
 
 ### Employment Table:
+Employment Table contains different store details like their weekly sales,unemployment percent etc
+* Primary key for this table is Employment_Id
+* Foreign key for this table is Services_ID
+
 The table is normalized and also its cleaned.
 
 ![](./employment.jpeg)
 
 ### Services Table:
-The table is normalized and also its cleaned.
+Services Table contains different store details like their ZHVI ,Mom, YoY
+* Primary key for this table is Services_ID
+* Foreign key for this table is Employment_Id
 
+The table is normalized and also its cleaned.
 ![](./services.jpeg)
 
 ### Walmart Table:
+Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
+* Primary key for this table is Walmart_Id
+* 
 The table is normalized and also its cleaned.
 
 ![](./walmart.jpeg)
