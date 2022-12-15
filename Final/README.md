@@ -81,6 +81,15 @@ The table is normalized and also its cleaned.
 ![](./sql13.png)
 ![](./sql14.png)
 ![](./sql15.png)
+![](./sql/1.png)
+![](./sql/2.png)
+![](./sql/3.png)
+![](./sql/4.png)
+![](./sql/5.png)
+![](./sql/6.png)
+![](./sql/7.png)
+![](./sql/8.png)
+![](./sql/9.png)
 
 ### Use cases and creation of views
 
