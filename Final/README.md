@@ -69,7 +69,7 @@ The table is normalized and also its cleaned.
 ### Walmart Table:
 Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
 * Primary key for this table is Walmart_Id
-* 
+
 The table is normalized and also its cleaned.
 
 ![](./walmart.jpeg)
