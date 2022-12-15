@@ -9,11 +9,14 @@ Arundhati Pathrikar (002780632)
 
 Sahil Gothoskar (002775631)
 
-GIT HUB LINK: https://github.com/SahilGothoskar/Sales/tree/main/Final
+GIT: https://github.com/SahilGothoskar/Sales/tree/main/Final
 
 ### Project Description:
+
 WalMart Stores, Inc., is one of the most well-known and valuable brands in the world. Walmart is one of the leading stores in the United States with about 4,742 stores all over US.There is sales data available for the 45 stores and we would like to predict sales of various stores and how they differ from each other. The dataset should be used to determine which location has the most sales and the largest market capitalization. What do they do differently that helps them increase their sales? Throughout the year, Walmart holds several promotional markdown events.These sales occur before major holidays, the four largest of which are the Super Bowl, Labor Day, Thanksgiving, and Christmas. Weeks with these holidays are weighted five times more heavily in the evaluation than non-holiday weeks. Modeling the effects of markdowns on these holiday weeks in the absence of complete/ideal historical data is part of the challenge presented by this competition. There is historical sales data for 45 Walmart stores in various regions.
+
 ##### Goals:
+
 - Which retailer has the highest sales
 - Which retailer's standard deviation is the highest
 - Consequently, there are wide variations in sales.
@@ -44,14 +47,17 @@ WalMart Stores, Inc., is one of the most well-known and valuable brands in the w
 
 ### Employment Table:
 The table is normalized and also its cleaned.
+
 ![](./employment.jpeg)
 
 ### Services Table:
 The table is normalized and also its cleaned.
+
 ![](./services.jpeg)
 
 ### Walmart Table:
 The table is normalized and also its cleaned.
+
 ![](./walmart.jpeg)
 
 ### MAJOR USESCASES AND OUTPUT SNIPPETS
@@ -679,7 +685,7 @@ connection.close()
 
 ```
 
-### USE CASES:
+### Use Cases:
 
 - Which retailer has the highest sales?
 - Which retailer's standard deviation is the highest
