@@ -29,8 +29,10 @@ WalMart Stores, Inc., is one of the most well-known and valuable brands in the w
 
 ### UML:
 
+UML Diagram for tables which were generated using data scraped from twitter.
 ![](./FinalUML.png)
 
+UML Diagram of the tables which were collected , cleaned and munged using python code.
 ![](./FinalUML1.png)
 
 ### Table Giftcards:
@@ -60,7 +62,8 @@ The table is normalized and also its cleaned.
 
 ![](./walmart.jpeg)
 
-### MAJOR USESCASES AND OUTPUT SNIPPETS
+### Major  usecases & output snippets
+
 ![](./sql1.png)
 ![](./sql2.png)
 ![](./sql3.png)
@@ -78,8 +81,9 @@ The table is normalized and also its cleaned.
 ![](./sql15.png)
 
 ### Use cases and creation of views
+
 ```sq
-VIEWS FOR THE USE CASES CREATED:
+
 
 1. Find total weekly sales of each store.
 VIEW --> CREATE VIEW  total_sales AS SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
