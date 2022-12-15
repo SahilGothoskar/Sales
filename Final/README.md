@@ -37,16 +37,28 @@ UML Diagram of the tables which were collected , cleaned and munged using python
 
 ![](./FinalUML1.png)
 
-### Table Giftcards:
+### Table Giftcards: 
+
+This table contains information about tweets posted by users with descriptions/hashtags about giftcards. 
+
 ![](./tweets_giftcards.png)
 
 ### Table Tweets:
+
+This table contains information about tweets with descriptions/hashtags about walmart that were posted by users. 
+
 ![](./tweets_table.png)
 
 ### Table Delivery
+
+This table contains data from user-posted tweets with descriptions/hashtags about Walmart Delivery.
+ 
 ![](./tweets_delivery.png)
 
 ### Table Fart
+
+This table contains data from user-posted tweets with customers who are pissed with walmart descriptions/hashtags. 
+
 ![](./tweets_fart.png)
 
 ### Employment Table:
