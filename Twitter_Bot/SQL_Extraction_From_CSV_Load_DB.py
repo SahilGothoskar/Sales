@@ -1,63 +1,66 @@
-# Import required modules
+"""
+SQL_Extraction_From_CSV_Load_DB.py — CSV → SQLite Ingestion
+=============================================================
+Reads the scraped tweets CSV (GFG_tweets.csv) produced by Twitter_Scrape.py,
+creates a `tweets` table in Tweets_Extracted.db, and bulk-inserts all rows.
+
+Schema:
+  tweets(id, username, description, location, following, followers,
+         totaltweets, retweetcount, text, hastags)
+
+Authors: Sneha Giranje, Arundhati Pathrikar, Sahil Gothoskar
+Course : DAMG 6210
+"""
+
 import csv
 import sqlite3
 
-# Connecting to the geeks database
+# ---------------------------------------------------------------------------
+# Connect to (or create) the SQLite database
+# ---------------------------------------------------------------------------
 connection = sqlite3.connect('Tweets_Extracted.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
 cursor = connection.cursor()
 
-# Table Definition
+# ---------------------------------------------------------------------------
+# Create the tweets table
+# ---------------------------------------------------------------------------
 create_table = '''CREATE TABLE tweets(
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				username VARCHAR NOT NULL,
-				description VARCHAR NOT NULL,
-				location VARCHAR NOT NULL,
-				following INTEGER NOT NULL,
-				followers INTEGER NOT NULL,
-				totaltweets INTEGER NOT NULL,
-				retweetcount INTEGER NOT NULL,
-				text VARCHAR NOT NULL,
-				hastags VARCHAR NOT NULL
-				);
-				'''
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    username     VARCHAR NOT NULL,
+    description  VARCHAR NOT NULL,
+    location     VARCHAR NOT NULL,
+    following    INTEGER NOT NULL,
+    followers    INTEGER NOT NULL,
+    totaltweets  INTEGER NOT NULL,
+    retweetcount INTEGER NOT NULL,
+    text         VARCHAR NOT NULL,
+    hastags      VARCHAR NOT NULL
+);'''
 
-# Creating the table into our
-# database
 cursor.execute(create_table)
 
-# Opening the tweets-records.csv file
-file = open('GFG_tweets.csv' , errors='ignore')
-
-# Reading the contents of the
-# tweets-records.csv file
+# ---------------------------------------------------------------------------
+# Read the scraped CSV and bulk-insert into the tweets table
+# ---------------------------------------------------------------------------
+file = open('GFG_tweets.csv', errors='ignore')
 contents = csv.reader(file)
 
+insert_records = """INSERT INTO tweets
+    (username, description, location, following, followers,
+     totaltweets, retweetcount, text, hastags)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"""
 
-
-# SQL query to insert data into the
-# tweets table
-insert_records = "INSERT INTO tweets (username, description, location, following, followers, totaltweets, retweetcount, text, hastags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file
-# into our tweets table
 cursor.executemany(insert_records, contents)
 
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-select_all = "SELECT * FROM tweets"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
+# ---------------------------------------------------------------------------
+# Verify the insert by printing all rows
+# ---------------------------------------------------------------------------
+rows = cursor.execute("SELECT * FROM tweets").fetchall()
 for r in rows:
     print(r)
 
-# Committing the changes
+# ---------------------------------------------------------------------------
+# Commit and close
+# ---------------------------------------------------------------------------
 connection.commit()
-
-# closing the database connection
 connection.close()

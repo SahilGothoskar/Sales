@@ -1,55 +1,232 @@
-## GROUP MEMBERS:
+# Walmart Sales Analysis 🛒
 
-Sneha Giranje (002785370)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" alt="SQLite" />
+  <img src="https://img.shields.io/badge/Tweepy-Twitter%20API-1DA1F2?logo=twitter&logoColor=white" alt="Tweepy" />
+  <img src="https://img.shields.io/badge/Pandas-Data%20Cleaning-150458?logo=pandas&logoColor=white" alt="Pandas" />
+  <img src="https://img.shields.io/badge/Course-DAMG%206210-orange" alt="Course" />
+</p>
 
-Arundhati Pathrikar (002780632)
+---
 
-Sahil Gothoskar (002775631)
+## 📖 About
 
-PROJECT NAME/TOPIC :SALES
+A data-management course project analyzing **Walmart store sales** across 45 U.S. locations. The project spans the full data lifecycle — from raw CSV collection and Twitter scraping, through cleaning and normalization, to SQL analysis with views and use-case queries. The goal is to uncover which stores perform best, how holidays and economic factors impact sales, and what public sentiment (via Twitter) reveals about Walmart.
 
-## Abstract:
+---
 
-WalMart Stores, Inc., is one of the most well-known and valuable brands in the world. Walmart is one of the leading stores in the United States with about 4,742 stores all over US.There is sales data available for the 45 stores and we would like to predict sales of various stores and how they differ from each other. The dataset should be used to determine which location has the most sales and the largest market capitalization. What do they do differently that helps them increase their sales? Throughout the year, Walmart holds several promotional markdown events.These sales occur before major holidays, the four largest of which are the Super Bowl, Labor Day, Thanksgiving, and Christmas. Weeks with these holidays are weighted five times more heavily in the evaluation than non-holiday weeks. Modeling the effects of markdowns on these holiday weeks in the absence of complete/ideal historical data is part of the challenge presented by this competition. There is historical sales data for 45 Walmart stores in various regions.
+## 👥 Team
 
-## Goals:
+| Name | NUID | GitHub |
+|------|------|--------|
+| **Sahil Gothoskar** | 002775631 | [@SahilGothoskar](https://github.com/SahilGothoskar) |
+| **Sneha Giranje** | 002785370 | |
+| **Arundhati Pathrikar** | 002780632 | |
 
-Which retailer has the highest sales
+---
 
-Which retailer's standard deviation is the highest
+## 🗂️ Repository Structure
 
-Consequently, there are wide variations in sales.
+```
+Sales/
+├── readme.md                        # ← You are here
+├── Assignment_2_30_Questions        # 30 analytical questions about Walmart sales
+│
+├── Assignment_3/                    # Data cleaning & SQLite ingestion
+│   ├── Cleaning_Data.py             # pandas cleaning + SQLite loader for 2 datasets
+│   ├── myCity.csv                   # Dataset 1 — housing/market data by city
+│   ├── Walmart.csv                  # Dataset 2 — store-level weekly sales
+│   ├── Cleaned.csv                  # Cleaned output of Dataset 1
+│   ├── Cleaned_DB.db                # SQLite DB with walmart & employment tables
+│   ├── SQL and Use cases            # 15 SQL queries + JOIN use cases
+│   ├── UML__Assignment_3.png        # UML diagram
+│   ├── Readme.md                    # Assignment 3 specific README
+│   └── readme.txt                   # Flow-of-program notes
+│
+├── Twitter_Bot/                     # Twitter scraping pipeline
+│   ├── Twitter_Scrape.py            # Tweepy-based tweet scraper → GFG_tweets.csv
+│   ├── SQL_Extraction_From_CSV_Load_DB.py  # CSV → SQLite tweets table loader
+│   ├── GFG_tweets.csv               # Raw scraped tweets
+│   ├── scraped_tweets.csv           # Additional scraped data
+│   ├── Tweets_Extracted.db          # SQLite DB with tweets table
+│   ├── SQL_Statements.txt           # 12 SQL queries on the tweets table
+│   ├── Question_on_SQL_Queries.txt  # Business questions driving the queries
+│   ├── Relational_Algebra.txt       # Relational algebra for each query
+│   ├── UML.pdf                      # UML diagram
+│   └── Assignment3_Text_Formatted_DAMG6210.txt  # Formatted submission text
+│
+├── Normalization/                   # Database normalization documentation
+│   ├── readme.md                    # 1NF → 2NF → 3NF walkthrough per table
+│   ├── Views.txt                    # 15 SQL VIEW definitions
+│   ├── walmart.jpeg                 # Walmart table screenshot
+│   ├── services.jpeg                # Services table screenshot
+│   └── employment.jpeg              # Employment table screenshot
+│
+└── Final/                           # Final consolidated deliverable
+    ├── README.md                    # Final project report with UML + screenshots
+    ├── SQL_Statements_Twitter_DB.txt # Twitter DB SQL queries
+    ├── Views.txt                    # All VIEW definitions
+    ├── Tweets_Extracted.db          # Final tweets database
+    ├── GFG_tweets*.csv              # Category-split tweet CSVs
+    ├── FinalUML.png / FinalUML1.png # Final UML diagrams
+    ├── Walmart Sales Database.pdf   # Project report PDF
+    ├── sql/*.jpeg                   # SQL output screenshots
+    └── *.jpeg / *.png               # Table & view screenshots
+```
 
-Likewise, determine the ratio of the mean to the standard deviation.
+---
 
-Which retailer(s) has/have the best quarterly growth rate in Q3?
+## 📊 Datasets
 
-Sales may suffer over certain holidays.
+| # | Dataset | Source | Description |
+|---|---------|--------|-------------|
+| 1 | `myCity.csv` | Kaggle / Zillow | Housing-market indicators by city — ZHVI, MarketHealthIndex, SellForGain, DaysOnMarket, etc. |
+| 2 | `Walmart.csv` | Kaggle | Weekly sales for 45 Walmart stores — includes temperature, fuel price, CPI, unemployment, and holiday flags |
+| 3 | `GFG_tweets.csv` | Twitter API (Tweepy) | Scraped tweets about Walmart — username, location, text, hashtags, follower counts |
 
-Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
+---
 
-Give insights and a monthly and semester snapshot of the sales in units.
+## 🧹 Data Pipeline
 
-A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
+```
+CSV files (Kaggle)          Twitter API (Tweepy)
+       │                            │
+       ▼                            ▼
+  Cleaning_Data.py           Twitter_Scrape.py
+  (pandas: drop cols,        (search by hashtag,
+   impute nulls, export)      extract metadata)
+       │                            │
+       ▼                            ▼
+  Cleaned_DB.db              GFG_tweets.csv
+  ├─ walmart table                  │
+  └─ employment table               ▼
+                          SQL_Extraction_From_CSV_Load_DB.py
+                                    │
+                                    ▼
+                            Tweets_Extracted.db
+                            └─ tweets table
+```
 
+---
 
-## Factors:
+## 🔑 Key Analysis Questions
 
+1. Which store has the **highest weekly sales**?
+2. Which store's **standard deviation** is the highest — indicating volatile sales?
+3. Which store(s) had the **best Q3 growth rate**?
+4. Which **holidays** drive sales above non-holiday averages?
+5. How does **temperature, fuel price, CPI, and unemployment** correlate with sales?
+6. What does **Twitter sentiment** reveal about customer satisfaction?
+7. Which cities receive the **most Walmart-related tweets**?
+8. How many tweets use **#walfart** (negative sentiment)?
 
-Store - the store number
+> The full list of 30 business questions is in [`Assignment_2_30_Questions`](./Assignment_2_30_Questions).
 
-Date - the week of sales
+---
 
-Weekly_Sales - sales for the given store
+## 🗄️ Database Schema
 
-Holiday_Flag - whether the week is a special holiday week 1 – Holiday week 0 – Non-holiday week
+### Cleaned_DB.db
 
-Temperature - Temperature on the day of sale
+| Table | Key Columns | Primary Key |
+|-------|-------------|-------------|
+| **walmart** | RegionType, RegionName, City, State, Metro, SizeRank, MarketHealthIndex, SellForGain, ZHVI, MoM, YoY, NegativeEquity, Delinquency, DaysOnMarket | `id` (auto) |
+| **employment** | Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment | `id` (auto) |
+| **services** | ZHVI, MoM, YoY, NegativeEquity, Delinquency, DaysOnMarket *(split from walmart for normalization)* | `services_id` |
 
-Fuel_Price - Cost of fuel in the region
+### Tweets_Extracted.db
 
-CPI – Prevailing consumer price index
+| Table | Key Columns | Primary Key |
+|-------|-------------|-------------|
+| **tweets** | username, description, location, following, followers, totaltweets, retweetcount, text, hastags | `id` (auto) |
 
-Unemployment - Prevailing unemployment rate
+---
 
-GITLINK - https://github.com/SahilGothoskar/Sales/blob/main/README.md
+## 🧰 Tech Stack
+
+| Tool | Purpose |
+|------|---------|
+| **Python 3** | All scripts |
+| **pandas / NumPy** | Data cleaning, imputation, CSV I/O |
+| **Tweepy** | Twitter API v1.1 authentication and search |
+| **SQLite 3** | Lightweight relational database |
+| **SQL** | 15+ analytical queries, JOINs, aggregate functions, VIEWs |
+
+---
+
+## 🚀 How to Run
+
+### Data Cleaning & SQLite Load
+
+```bash
+cd Assignment_3
+python Cleaning_Data.py
+```
+
+### Twitter Scraping
+
+```bash
+cd Twitter_Bot
+
+# 1. Scrape tweets (requires valid Twitter API credentials in the script)
+python Twitter_Scrape.py
+
+# 2. Load scraped CSV into SQLite
+python SQL_Extraction_From_CSV_Load_DB.py
+```
+
+### SQL Queries
+
+Open `Cleaned_DB.db` or `Tweets_Extracted.db` in any SQLite client and run the queries from:
+- `Assignment_3/SQL and Use cases` — 15 queries with JOINs
+- `Twitter_Bot/SQL_Statements.txt` — 12 Twitter analytics queries
+- `Final/Views.txt` — all VIEW definitions
+
+---
+
+## 📐 Normalization
+
+All tables are normalized to **3NF**:
+- **1NF** — Atomic values, no repeating groups
+- **2NF** — No partial dependencies
+- **3NF** — No transitive dependencies
+
+Full walkthrough with screenshots in [`Normalization/readme.md`](./Normalization/readme.md).
+
+---
+
+## 📸 UML Diagrams
+
+| Diagram | Location |
+|---------|----------|
+| Twitter tables UML | `Final/FinalUML.png` |
+| Sales tables UML | `Final/FinalUML1.png` |
+| Assignment 3 UML | `Assignment_3/UML__Assignment_3.png` |
+
+---
+
+## ⚠️ Notes
+
+- **Twitter API credentials** in `Twitter_Scrape.py` are placeholder `XXX` values — replace with your own developer keys.
+- File paths in `Cleaning_Data.py` use absolute Windows paths (`D:\DMDD\...`). Adjust to your local environment before running.
+- The `Cleaned_DB.db` and `Tweets_Extracted.db` files in the repo already contain loaded data for quick exploration.
+
+---
+
+## 📚 Factors in the Sales Dataset
+
+| Column | Description |
+|--------|-------------|
+| `Store` | Store number (1–45) |
+| `Date` | Week of sales |
+| `Weekly_Sales` | Total sales for the given store that week |
+| `Holiday_Flag` | `1` = holiday week, `0` = non-holiday week |
+| `Temperature` | Temperature on the day of sale (°F) |
+| `Fuel_Price` | Regional fuel price |
+| `CPI` | Consumer Price Index |
+| `Unemployment` | Regional unemployment rate |
+
+---
+
+<p align="center">Made with 📊 by Sahil, Sneha & Arundhati — DAMG 6210</p>
