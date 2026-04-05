@@ -21,8 +21,8 @@ A data-management course project analyzing **Walmart store sales** across 45 U.S
 | Name | NUID | GitHub |
 |------|------|--------|
 | **Sahil Gothoskar** | 002775631 | [@SahilGothoskar](https://github.com/SahilGothoskar) |
-| **Sneha Giranje** | 002785370 | |
-| **Arundhati Pathrikar** | 002780632 | |
+| **Sneha Giranje** | 002785370 | [@snehagiranje27](https://github.com/snehagiranje27) |
+| **Arundhati Pathrikar** | 002780632 | [@ArundhatiCat](https://github.com/ArundhatiCat) |
 
 ---
 

@@ -1,122 +1,97 @@
-# Walmart Sales 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+# Assignment 3 — Data Cleaning & SQLite Ingestion 🧹
 
-## Overview: Gathering, Scraping, Munging, and Cleaning Data
-- Assemble data on Walmart from a variety of sources: Data was obtained via Kaggle. 
-- Scrape data from a variety of sources, such as web APIs.
-- After scraping the data, we must reformat it to meet the database schema.
-- The data should be cleansed, and all null values and empty values should be handled.
-- After Auditing the data you need to use  SQL to insert the data into your database.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/pandas-Data%20Cleaning-150458?logo=pandas&logoColor=white" alt="Pandas" />
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" alt="SQLite" />
+</p>
 
+---
 
-## Flow of the Program
+## 📖 Overview
 
-Step 1: Collect data from various sources. We have collected data form kaggle. There are 3 csv files as follows:
-- Walmart.csv
-- myCity_1_8.csv
-- myCity_8_16.csv
+This assignment covers the full data-ingestion pipeline: **gathering → cleaning → loading → querying**. Two Walmart-related CSV datasets are cleaned using pandas and loaded into a SQLite database for SQL analysis.
 
-Step 2: Clean the csv files using the python script Cleaning_Data.py
-```sh
+---
+
+## 🗂️ Files
+
+| File | Description |
+|------|-------------|
+| `Cleaning_Data.py` | Python script — cleans both datasets and loads into SQLite |
+| `myCity.csv` | Dataset 1 — housing/market data by city (ZHVI, MarketHealthIndex, etc.) |
+| `Walmart.csv` | Dataset 2 — weekly store sales with economic indicators |
+| `Cleaned.csv` | Cleaned output of Dataset 1 |
+| `Cleaned_DB.db` | SQLite database with `walmart` and `employment` tables |
+| `SQL and Use cases` | 15 analytical SQL queries with JOINs |
+| `UML__Assignment_3.png` | UML diagram for the database schema |
+
+---
+
+## 🔄 Pipeline Flow
+
+```
+myCity.csv ──→ Cleaning_Data.py ──→ Cleaned.csv ──→ SQLite: walmart table
+                  │                                          │
+Walmart.csv ─────┘ (already clean) ──────────────→ SQLite: employment table
+                                                          │
+                                                   Cleaned_DB.db
+```
+
+### Step 1 — Collect Data
+Data sourced from Kaggle:
+- `myCity.csv` — City-level housing market indicators
+- `Walmart.csv` — Store-level weekly sales (45 stores)
+
+### Step 2 — Clean with pandas (`Cleaning_Data.py`)
+
+**Dataset 1 (myCity.csv):**
+1. Audit missing values with `missing_cols()` and `perc_missing()` helpers
+2. Drop irrelevant columns: `StockOfREOs`, `PrevForeclosed`, `ForeclosureRatio`
+3. Impute remaining nulls using backward-fill + forward-fill for: `Metro`, `SizeRank`, `SellForGain`, `ZHVI`, `MoM`, `YoY`, `ForecastYoYPctChange`, `Delinquency`, `DaysOnMarket`, `NegativeEquity`
+4. Export cleaned DataFrame to `Cleaned.csv`
+
+**Dataset 2 (Walmart.csv):**
+- No missing values — loaded directly
+
+### Step 3 — Load into SQLite
+Both datasets are bulk-inserted into `Cleaned_DB.db`:
+- `walmart` table — 15 columns (RegionType, RegionName, City, State, Metro, SizeRank, MarketHealthIndex, SellForGain, ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket)
+- `employment` table — 8 columns (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment)
+
+### Step 4 — SQL Analysis
+15 use-case queries in `SQL and Use cases` covering:
+- Aggregations (`SUM`, `AVG`, `MIN`, `MAX`)
+- Filtered queries (`WHERE`, `BETWEEN`, `HAVING`)
+- `INNER JOIN` and `LEFT JOIN` across `walmart` and `services` tables
+- Subqueries for max/min lookups
+
+---
+
+## 🚀 How to Run
+
+```bash
+cd Assignment_3
 python Cleaning_Data.py
-vi Cleaning_Data.py
+```
 
+> **Note:** File paths in the script use absolute Windows paths — adjust to your local environment before running.
 
-import pandas as pd
-import numpy as np
+---
 
+## 📐 UML Diagram
 
+![UML Diagram](./UML__Assignment_3.png)
 
-#Dataset 1
-walmart_path = 'D:\DMDD\Assignment 3\TEST\myCity_1_8.csv'
+---
 
-#Converting Dataset into dataframe using Pandas
-walmart_ori = pd.read_csv(walmart_path)
-walmart = walmart_ori.copy()
+## 👥 Team
 
-#Head function which gives us a peek into the data
-walmart.head()
-
-#Info function gives data types and rest info regarding the data.
-walmart.info()
-
-#Function to fetch missing values from Dataset 1
-def missing_cols(walmart):
-    '''prints out columns with its amount of missing values'''
-    total = 0
-    for col in walmart.columns:
-        missing_vals = walmart[col].isnull().sum()
-        total += missing_vals
-        if missing_vals != 0:
-            print(f"{col} => {walmart[col].isnull().sum()}")
-    
-    if total == 0:
-        print("no missing values left")
-            
-#Missing Columns Values in Walmart Dataframe            
-missing_cols(walmart)
-
-def perc_missing(walmart):
-    '''prints out columns with missing values with its %'''
-    for col in walmart.columns:
-        pct = walmart[col].isna().mean() * 100
-        if (pct != 0):
-            print('{} => {}%'.format(col, round(pct, 2)))
-
-#Percentage Wise Missing Values
-perc_missing(walmart)
-
-#Missing Values Redefined
-missing_cols(walmart)
-
-#Percentage Wise Missing Values
-perc_missing(walmart)
-
-
-# imputing with bfill or ffill
-walmart['Metro'].bfill(inplace=True)
-walmart['Metro'].ffill(inplace=True)
-walmart['SizeRank'].bfill(inplace=True)
-walmart['SizeRank'].ffill(inplace=True)
-walmart['SellForGain'].bfill(inplace=True)
-walmart['SellForGain'].ffill(inplace=True)
-
-#DF Post Cleaning
-missing_cols(walmart)
-
-
-#Cleaned DF 1
-print (walmart)
-
-#Cleaned Data Inserted into CSV
-csv_data = walmart.to_csv('D:\DMDD\Assignment 3\TEST\Cleaned.csv', index = False)
-
-
-# Import required modules
-
-import csv
-import sqlite3
-
-# Connecting to the Cleaned database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS walmart (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-                RegionType VARCHAR NOT NULL, 
-                RegionName VARCHAR NOT NULL, 
-                City VARCHAR NOT NULL, 
-                State VARCHAR NOT NULL, 
-                Metro VARCHAR NOT NULL, 
-                SizeRank INTEGER NOT NULL, 
-                MarketHealthIndex INTEGER NOT NULL, 
-                SellForGain INTEGER NOT NULL 
-				);
-				'''
+| Name | GitHub |
+|------|--------|
+| **Sahil Gothoskar** | [@SahilGothoskar](https://github.com/SahilGothoskar) |
+| **Sneha Giranje** | [@snehagiranje27](https://github.com/snehagiranje27) |
+| **Arundhati Pathrikar** | [@ArundhatiCat](https://github.com/ArundhatiCat) |
 
 # Creating the table into our database
 cursor.execute(create_table)

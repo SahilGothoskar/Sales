@@ -1,133 +1,114 @@
-# NORMALIZATION OF WALMART SALES DATABASE
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+# Normalization — Walmart Sales Database 📐
 
-### Walmart Table:
-Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
-- Primary key for this table is Walmart_Id
-#### 1st Normal Form
-- This table has one primary key which is walmart_id
-- No multi-value attributes in any columns of the table.
-- Two columns of this table do not store similar information.
-#### 2nd Normal Form
-- All requirements for 1st NF must be met. 
-- Since there is no redundant data in this table, there is no need to create a separate table.
-- The tables are related to each other by use of foreign key-services_id.
-#### 3rd Normal Form
-- All requirements for 2nd NF must be met. 
-- There are no fields in this table which do not depend on primary key of the table. 
-- There are no fields dependent on the primary key or any another field. 
+<p align="center">
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" alt="SQLite" />
+  <img src="https://img.shields.io/badge/Normal%20Form-1NF%20→%202NF%20→%203NF-green" alt="3NF" />
+</p>
 
+---
 
+## 📖 Overview
 
+This document walks through the **normalization to 3NF** for all three tables in the Walmart Sales database. Each table is verified against 1st, 2nd, and 3rd Normal Form criteria. SQL VIEWs are defined for the 15 analytical use cases.
 
+---
 
-![](./walmart.jpeg)
+## 🗄️ Tables
 
+### 🏬 Walmart Table
 
-### Services Table
-Services Table contains different store details like their ZHVI ,Mom, YoY
-- Primary key for this table is Services_ID
-- Foreign key for this table is Employment_Id
-#### 1st Normal Form
-- This table has one primary key which is services_id
-- No multi-value attributes in any columns of the table.
-- Two columns of this table do not store similar information.
-#### 2nd Normal Form
-- All requirements for 1st NF must be met. 
-- Since there is no redundant data in this table, there is no need to create a separate table.
-- The tables are related to each other by use of foreign key-walmart_id
-#### 3rd Normal Form
-- All requirements for 2nd NF must be met. 
-- There are no fields in this table which do not depend on primary key of the table. 
-- There are no fields dependent on the primary key or any another field. 
+Stores across different U.S. regions with market health, size rank, and sale-for-gain indicators.
 
+| Property | Value |
+|----------|-------|
+| **Primary Key** | `Walmart_Id` |
+| **Foreign Key** | `services_id` → Services |
 
+#### Normalization
 
+| Normal Form | Satisfied | Rationale |
+|-------------|-----------|-----------|
+| **1NF** | ✅ | Single PK (`walmart_id`), no multi-value attributes, no duplicate-purpose columns |
+| **2NF** | ✅ | No redundant data; related to Services via FK `services_id` |
+| **3NF** | ✅ | No transitive dependencies — all fields depend solely on the PK |
 
+![Walmart Table](./walmart.jpeg)
 
-![](./services.jpeg)
+---
 
+### 🔧 Services Table
 
-### Employment Table
-Employment Table contains different store details like their weekly sales,unemployment percent etc
-- Primary key for this table is Employment_Id
-- Foreign key for this table is Services_ID
-#### 1st Normal Form
-- This table has one primary key which is employment_id. 
-- No multi-value attributes in any columns of the table.
-- Two columns of this table do not store similar information.
-#### 2nd Normal Form
-- All requirements for 1st NF must be met. 
-- Since there is no redundant data in this table, there is no need to create a separate table.
-#### 3rd Normal Form
-- All requirements for 2nd NF must be met. 
-- There are no fields in this table which do not depend on primary key of the table.
-- There are no fields dependent on the primary key or any another field. 
+Store-level market detail: ZHVI, MoM, YoY, NegativeEquity, Delinquency, DaysOnMarket.
 
+| Property | Value |
+|----------|-------|
+| **Primary Key** | `Services_Id` |
+| **Foreign Key** | `Employment_Id` → Employment |
 
+#### Normalization
 
+| Normal Form | Satisfied | Rationale |
+|-------------|-----------|-----------|
+| **1NF** | ✅ | Single PK (`services_id`), atomic values, no duplicate-purpose columns |
+| **2NF** | ✅ | No redundant data; related to Walmart via FK `walmart_id` |
+| **3NF** | ✅ | No transitive dependencies — all fields depend solely on the PK |
 
-![](./employment.jpeg)
+![Services Table](./services.jpeg)
 
+---
 
-## VIEWS CREATED FOR THE USECASES
+### 💼 Employment Table
 
+Store-level weekly sales with economic indicators (temperature, fuel price, CPI, unemployment).
 
+| Property | Value |
+|----------|-------|
+| **Primary Key** | `Employment_Id` |
+| **Foreign Key** | `Services_Id` → Services |
 
-1. Find total weekly sales of each store.
-- VIEW--> CREATE VIEW  total_sales AS SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
+#### Normalization
 
-2. Find dates on which Walmart store had Fuel_Price > 3.5 and Holiday_Flag was 0
-- VIEW--> CREATE VIEW fuelprice AS  SELECT Store, Date , Fuel_Price, Holiday_Flag FROM employment WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
+| Normal Form | Satisfied | Rationale |
+|-------------|-----------|-----------|
+| **1NF** | ✅ | Single PK (`employment_id`), atomic values, no duplicate-purpose columns |
+| **2NF** | ✅ | No redundant data; no need for further decomposition |
+| **3NF** | ✅ | No transitive dependencies — all fields depend solely on the PK |
 
-3. Select min of Unemployment of store 1 and sales between 1542561.09 and 1606629.58 
-- VIEW--> CREATE VIEW Min_unemployemnt AS SELECT MIN(Unemployment), Store from employment WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
+![Employment Table](./employment.jpeg)
 
-4. Find average weekly sales of each store.
-- VIEW--> CREATE VIEW Avg_weekly_sales AS SELECT AVG(Weekly_Sales), Store from employment GROUP BY Store;
+---
 
-5. List the number of customers in each country. Only include STORES with less than 3 Holiday_flag
-- VIEW--> CREATE VIEW Sum_holiday_flag AS SELECT Store, SUM(Holiday_Flag) FROM employment GROUP BY Store HAVING SUM(Holiday_Flag) >9;
+## 👁️ SQL VIEWs
 
-6. Show all the DaysOnMarket where CITY is Phoenix
-- VIEW--> CREATE VIEW DOM_Phoenix AS SELECT walmart.RegionName, walmart.City, services.DaysOnMarket  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  where City="Phoenix";
+The following VIEWs are defined for the 15 analytical use cases (full SQL in `Views.txt`):
 
-7. Finding out Maximum SizeRank, RegionName, City where DaysOnMarket=106
-- VIEW--> CREATE VIEW DOM AS SELECT walmart.SizeRank, walmart.RegionName, walmart.City, services.DaysOnMarket from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  WHERE SizeRank=(SELECT MAX(SizeRank) from walmart) AND  services.DaysOnMarket=106;
+| # | View Name | Description |
+|---|-----------|-------------|
+| 1 | `total_sales` | Total weekly sales per store |
+| 2 | `fuelprice` | Store dates where Fuel_Price > 3.5 and no holiday |
+| 3 | `Min_unemployemnt` | Min unemployment for Store 1 within a sales range |
+| 4 | `Avg_weekly_sales` | Average weekly sales per store |
+| 5 | `Sum_holiday_flag` | Stores with holiday flag sum > 9 |
+| 6 | `DOM_Phoenix` | DaysOnMarket for Phoenix (JOIN) |
+| 7 | `DOM` | Max SizeRank regions where DaysOnMarket = 106 (JOIN) |
+| 8 | `sales_services` | Cities where NegativeEquity < Delinquency (JOIN) |
+| 9 | `All_dom` | All cities and regions with DaysOnMarket (LEFT JOIN) |
+| 10 | `Services_dom` | All cities/regions/states with DaysOnMarket (UNION) |
+| 11 | `negative_equity` | NegativeEquity & Delinquency in Boston (JOIN) |
+| 12 | `ZHVI` | Max SellForGain regions by ZHVI threshold (JOIN) |
+| 13 | `DOM_states` | Total DaysOnMarket by state (JOIN) |
+| 14 | `weekly_sales` | Highest weekly sale on 05-02-2010 |
+| 15 | `min_MHI` | Min MarketHealthIndex by MoM threshold (JOIN) |
 
-8. Finding cities and region where  NegativeEquity < Delinquency
-- VIEW--> CREATE VIEW sales_services AS SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE  NegativeEquity < Delinquency;
+---
 
-9. Show all cities an regions with any DaysOnMarket they might have
-- VIEW--> CREATE VIEW All_dom AS SELECT walmart.RegionName, walmart.City,  services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id;
+## 👥 Team
 
-10. Show all cities, regions, state with All DaysOnMarket in the table
-- VIEW--> CREATE VIEW Services_dom AS SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id UNION SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id ;
-
-11. Show the list of NegativeEquity, Delinquency, regions in Massachusetts state and city is Boston 
-- VIEW--> CREATE VIEW negative_equity AS SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE City= "Boston";
-
-12. Finding out Maximum SellForGain, RegionName, City where ZHVI >= 695600
-- VIEW--> CREATE VIEW ZHVI AS  SELECT walmart.SellForGain, walmart.RegionName, walmart.City, services.ZHVI from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE SellForGain=(SELECT MAX(SellForGain) from walmart) AND services.ZHVI =190900;
-
-13. Show DaysOnMarket in each state
-- VIEW--> CREATE VIEW DOM_states AS SELECT walmart.State, SUM(services.DaysOnMarket) from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id GROUP BY State;
-
-14. Select store which has the highest weekly sale on this 05-02-2010 date
-- VIEW--> CREATE VIEW weekly_sales AS SELECT Store, Weekly_Sales, Date from employment where Date = 05-02-2010  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from employment );
-
-15. Finding out Minimum MarketHealthIndex, RegionName, City where MoM=1.00791936645068
-- VIEW--> CREATE VIEW min_MHI AS SELECT walmart.MarketHealthIndex, walmart.RegionName, walmart.City, services.MoM from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE MarketHealthIndex=(SELECT MAX(MarketHealthIndex) from walmart) OR MoM= 1.00791936645068;
-
-
-
-
-
-Sneha Giranje (002785370)
-
-Arundhati Pathrikar (002780632)
-
-Sahil Gothoskar (002775631)
+| Name | GitHub |
+|------|--------|
+| **Sahil Gothoskar** | [@SahilGothoskar](https://github.com/SahilGothoskar) |
+| **Sneha Giranje** | [@snehagiranje27](https://github.com/snehagiranje27) |
+| **Arundhati Pathrikar** | [@ArundhatiCat](https://github.com/ArundhatiCat) |
 
 Git: https://github.com/SahilGothoskar/Sales/tree/main/Normalization
 

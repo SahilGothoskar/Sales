@@ -1,816 +1,234 @@
-# Walmart Sales Database
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+# Final Deliverable — Walmart Sales Database 📦
 
-GROUP MEMBERS:
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white" alt="SQLite" />
+  <img src="https://img.shields.io/badge/Tweepy-Twitter%20API-1DA1F2?logo=twitter&logoColor=white" alt="Tweepy" />
+  <img src="https://img.shields.io/badge/pandas-Data%20Cleaning-150458?logo=pandas&logoColor=white" alt="Pandas" />
+  <img src="https://img.shields.io/badge/Course-DAMG%206210-orange" alt="Course" />
+</p>
 
-Sneha Giranje (002785370)
+---
 
-Arundhati Pathrikar (002780632)
+## 👥 Team
 
-Sahil Gothoskar (002775631)
+| Name | NUID | GitHub |
+|------|------|--------|
+| **Sahil Gothoskar** | 002775631 | [@SahilGothoskar](https://github.com/SahilGothoskar) |
+| **Sneha Giranje** | 002785370 | [@snehagiranje27](https://github.com/snehagiranje27) |
+| **Arundhati Pathrikar** | 002780632 | [@ArundhatiCat](https://github.com/ArundhatiCat) |
 
-GIT: https://github.com/SahilGothoskar/Sales/tree/main/Final
+---
 
-### Project Description:
+## 📖 Project Description
 
-WalMart Stores, Inc., is one of the most well-known and valuable brands in the world. Walmart is one of the leading stores in the United States with about 4,742 stores all over US.There is sales data available for the 45 stores and we would like to predict sales of various stores and how they differ from each other. The dataset should be used to determine which location has the most sales and the largest market capitalization. What do they do differently that helps them increase their sales? Throughout the year, Walmart holds several promotional markdown events.These sales occur before major holidays, the four largest of which are the Super Bowl, Labor Day, Thanksgiving, and Christmas. Weeks with these holidays are weighted five times more heavily in the evaluation than non-holiday weeks. Modeling the effects of markdowns on these holiday weeks in the absence of complete/ideal historical data is part of the challenge presented by this competition. There is historical sales data for 45 Walmart stores in various regions.
+Walmart is one of the leading retailers in the United States with ~4,742 stores. This project analyzes historical sales data for 45 Walmart stores across different regions to determine which locations perform best, how holidays and economic factors impact weekly sales, and what Twitter sentiment reveals about customer satisfaction.
 
-##### Goals:
+Walmart holds promotional markdown events before the **Super Bowl, Labor Day, Thanksgiving, and Christmas** — holiday weeks are weighted 5× more heavily in the evaluation.
 
-- Which retailer has the highest sales
-- Which retailer's standard deviation is the highest
-- Consequently, there are wide variations in sales.
-- Likewise, determine the ratio of the mean to the standard deviation.
-- Which retailer(s) has/have the best quarterly growth rate in Q3?
-- Sales may suffer over certain holidays.
-- Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
-- Give insights and a monthly and semester snapshot of the sales in units.
-- A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
+---
 
-### UML:
+## 🎯 Goals
 
-UML Diagram for tables which were generated using data scraped from twitter.
+- Identify the **highest-revenue** store and the store with the **most volatile** sales (highest standard deviation)
+- Determine which stores had the **best Q3 growth rate**
+- Analyze which **holidays** drive above-average sales
+- Provide **monthly and semester** sales snapshots
+- Combine Kaggle sales data with **Twitter sentiment** for a comprehensive view
+
+---
 
-![](./FinalUML.png)
+## 📐 UML Diagrams
 
-UML Diagram of the tables which were collected , cleaned and munged using python code.
+### Twitter Tables
 
-![](./FinalUML1.png)
+![Twitter UML](./FinalUML.png)
 
-### Table Giftcards: 
+### Sales / Market Tables
 
-This table contains information about tweets posted by users with descriptions/hashtags about giftcards. 
-
-![](./tweets_giftcards.png)
-
-### Table Tweets:
-
-This table contains information about tweets with descriptions/hashtags about walmart that were posted by users. 
-
-![](./tweets_table.png)
-
-### Table Delivery
-
-This table contains data from user-posted tweets with descriptions/hashtags about Walmart Delivery.
- 
-![](./tweets_delivery.png)
-
-### Table Fart
-
-This table contains data from user-posted tweets with customers who are pissed with walmart descriptions/hashtags. 
-
-![](./tweets_fart.png)
-
-### Employment Table:
-Employment Table contains different store details like their weekly sales,unemployment percent etc
-* Primary key for this table is Employment_Id
-* Foreign key for this table is Services_ID
-
-The table is normalized and also its cleaned.
-
-![](./employment.jpeg)
-
-### Services Table:
-Services Table contains different store details like their ZHVI ,Mom, YoY
-* Primary key for this table is Services_ID
-* Foreign key for this table is Employment_Id
-
-The table is normalized and also its cleaned.
-
-![](./services.jpeg)
-
-### Walmart Table:
-Walmart table contains different stores across different regions along with their market health index, size rank and sale for gain
-* Primary key for this table is Walmart_Id
-
-The table is normalized and also its cleaned.
-
-![](./walmart.jpeg)
-
-### Major  usecases & output snippets
-
-![](./sql1.png)
-![](./sql2.png)
-![](./sql3.png)
-![](./sql4.png)
-![](./sql5.png)
-![](./sql6.png)
-![](./sql7.png)
-![](./sql8.png)
-![](./sql9.png)
-![](./sql10.jpeg)
-![](./sql11.jpeg)
-![](./sql12.jpeg)
-![](./sql13.jpeg)
-![](./sql14.jpeg)
-![](./sql15.jpeg)
-![](./sql/1.jpeg)
-![](./sql/2.jpeg)
-![](./sql/3.jpeg)
-![](./sql/4.jpeg)
-![](./sql/5.jpeg)
-![](./sql/6.jpeg)
-![](./sql/7.jpeg)
-![](./sql/8.jpeg)
-![](./sql/9.jpeg)
-
-### Use cases and creation of views
-
-```sq
-1. Find total weekly sales of each store.
-VIEW --> CREATE VIEW  total_sales AS SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
-
-2. Find dates on which Walmart store had Fuel_Price > 3.5 and Holiday_Flag was 0
-VIEW --> CREATE VIEW fuelprice AS  SELECT Store, Date , Fuel_Price, Holiday_Flag FROM employment WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
-
-3. Select min of Unemployment of store 1 and sales between 1542561.09 and 1606629.58 
-VIEW --> CREATE VIEW Min_unemployemnt AS SELECT MIN(Unemployment), Store from employment WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
-
-4. Find average weekly sales of each store.
-VIEW --> CREATE VIEW Avg_weekly_sales AS SELECT AVG(Weekly_Sales), Store from employment GROUP BY Store;
-
-5. List the number of customers in each country. Only include STORES with less than 3 Holiday_flag
-VIEW --> CREATE VIEW Sum_holiday_flag AS SELECT Store, SUM(Holiday_Flag) FROM employment GROUP BY Store HAVING SUM(Holiday_Flag) >9;
-
-6. Show all the DaysOnMarket where CITY is Phoenix
-VIEW --> CREATE VIEW DOM_Phoenix AS SELECT walmart.RegionName, walmart.City, services.DaysOnMarket  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  where City="Phoenix";
-
-7. Finding out Maximum SizeRank, RegionName, City where DaysOnMarket=106
-VIEW --> CREATE VIEW DOM AS SELECT walmart.SizeRank, walmart.RegionName, walmart.City, services.DaysOnMarket from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  WHERE SizeRank=(SELECT MAX(SizeRank) from walmart) AND  services.DaysOnMarket=106;
-
-8. Finding cities and region where  NegativeEquity < Delinquency
-VIEW --> CREATE VIEW sales_services AS SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE  NegativeEquity < Delinquency;
-
-9. Show all cities an regions with any DaysOnMarket they might have
-VIEW --> CREATE VIEW All_dom AS SELECT walmart.RegionName, walmart.City,  services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id;
-
-10. Show all cities, regions, state with All DaysOnMarket in the table
-VIEW --> CREATE VIEW Services_dom AS SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id UNION SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id ;
-
-11. Show the list of NegativeEquity, Delinquency, regions in Massachusetts state and city is Boston 
-VIEW --> CREATE VIEW negative_equity AS SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE City= "Boston";
-
-12. Finding out Maximum SellForGain, RegionName, City where ZHVI >= 695600
-VIEW --> CREATE VIEW ZHVI AS  SELECT walmart.SellForGain, walmart.RegionName, walmart.City, services.ZHVI from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE SellForGain=(SELECT MAX(SellForGain) from walmart) AND services.ZHVI =190900;
-
-13. Show DaysOnMarket in each state
-VIEW--> CREATE VIEW DOM_states AS SELECT walmart.State, SUM(services.DaysOnMarket) from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id GROUP BY State;
-
-14. Select store which has the highest weekly sale on this 05-02-2010 date
-VIEW --> CREATE VIEW weekly_sales AS SELECT Store, Weekly_Sales, Date from employment where Date = 05-02-2010  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from employment );
-
-15. Finding out Minimum MarketHealthIndex, RegionName, City where MoM=1.00791936645068
-VIEW --> CREATE VIEW min_MHI AS SELECT walmart.MarketHealthIndex, walmart.RegionName, walmart.City, services.MoM from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE MarketHealthIndex=(SELECT MAX(MarketHealthIndex) from walmart) OR MoM= 1.00791936645068;
-```
-
-### SQL Queries and Use cases
-
-```sq
-1. Find total weekly sales of each store.
-SQL--> SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
-
-2. Find dates on which Walmart store had Fuel_Price > 3.5 and Holiday_Flag was 0
-SQL-->  SELECT Store, Date , Fuel_Price, Holiday_Flag FROM employment WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
-
-3. Select min of Unemployment of store 1 and sales between 1542561.09 and 1606629.58 
-SQL-->  SELECT MIN(Unemployment), Store from employment WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
-
-4. Find average weekly sales of each store.
-SQL-->  SELECT AVG(Weekly_Sales), Store from employment GROUP BY Store;
-
-5. List the number of customers in each country. Only include STORES with less than 3 Holiday_flag
-SQL-->   SELECT Store, SUM(Holiday_Flag) FROM employment GROUP BY Store HAVING SUM(Holiday_Flag) >9;
-
-6. Show all the DaysOnMarket where CITY is Phoenix
-SQL-->  SELECT walmart.RegionName, walmart.City, services.DaysOnMarket  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  where City="Phoenix";
-
-7. Finding out Maximum SizeRank, RegionName, City where DaysOnMarket=106
-SQL-->  SELECT walmart.SizeRank, walmart.RegionName, walmart.City, services.DaysOnMarket from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  WHERE SizeRank=(SELECT MAX(SizeRank) from walmart) AND  services.DaysOnMarket=106;
-
-8. Finding cities and region where  NegativeEquity < Delinquency
-SQL-->  SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE  NegativeEquity < Delinquency;
-
-9. Show all cities an regions with any DaysOnMarket they might have
-SQL-->  SELECT walmart.RegionName, walmart.City,  services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id;
-
-10. Show all cities, regions, state with All DaysOnMarket in the table
-SQL-->  SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id UNION SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id ;
-
-11. Show the list of NegativeEquity, Delinquency, regions in Massachusetts state and city is Boston 
-SQL-->  SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE City=“Boston";
-
-12. Finding out Maximum SellForGain, RegionName, City where ZHVI >= 695600
-SQL-->  SELECT walmart.SellForGain, walmart.RegionName, walmart.City, services.ZHVI from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE SellForGain=(SELECT MAX(SellForGain) from walmart) AND services.ZHVI =190900;
-
-13. Show DaysOnMarket in each state
-SQL-->  SELECT walmart.State, SUM(services.DaysOnMarket) from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id GROUP BY State;
-
-14. Select store which has the highest weekly sale on this 05-02-2010 date
-SQL-->  SELECT Store, Weekly_Sales, Date from employment where Date = 05-02-2010  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from employment );
-
-15. Finding out Minimum MarketHealthIndex, RegionName, City where MoM=1.00791936645068
-SQL--> SELECT walmart.MarketHealthIndex, walmart.RegionName, walmart.City, services.MoM from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE MarketHealthIndex=(SELECT MAX(MarketHealthIndex) from walmart) OR MoM= 1.00791936645068;
-
-16. Create Table Tweets 
-
-CREATE TABLE tweets(
-id INTEGER PRIMARY KEY AUTOINCREMENT,
-username VARCHAR NOT NULL,
-description VARCHAR NOT NULL,
-location VARCHAR NOT NULL,
-following INTEGER NOT NULL,
-followers INTEGER NOT NULL,
-totaltweets INTEGER NOT NULL,
-retweetcount INTEGER NOT NULL,
-text VARCHAR NOT NULL,
-hastags VARCHAR NOT NULL)
-
-17. What are tweets about Walmart delivery ?
-SQL--> SELECT (*) FROM tweets WHERE description = "walmart delivery";
-
-18. How many tweets have there been about #walmartsales? 
-SQL--> SELECT COUNT (*) FROM tweets WHERE hastags ="#walmartsales" ;
-
-19. What are the various hashtags related to walmart/sales? 
-SQL--> SELECT COUNT (distinct hastags) FROM tweets WHERE description = "walmartsales"; 
-
-20. How many people/tweets are pleased with Walmart? 
-SQL--> SELECT COUNT(*) FROM tweets WHERE description ="walmart happy customers" OR hastags LIKE '%bestbuy%'; 
-
-21. How many tweets about Walmart delivery are there? 
-SQL--> SELECT COUNT(*) FROM tweets WHERE description ="walmartdelivery" OR hastags ="#walmartdelivery";
-
-22. Who are the actors/influencers promoting deals involving Walmart gift cards? 
-SQL--> SELECT * FROM tweets WHERE description = "EmmaWatson" , hashtags = "#walmartgiftcards" AND description ="influencers" ;
-
-23. Which location has received the most tweets? 
-SQL--> SELECT location , COUNT(totaltweets)
-FROM tweets
-GROUP BY location DESC LIMIT=1;
-
-24. HP Pavilion product is tweeted the most in which location? 
-SQL--> SELECT location, COUNT(totaltweets) FROM tweets WHERE description like '%HP Pavilion%' ORDER BY location LIMIT=1;
-
-25. What is the total number of tweets/people upset with Walmart using the hashtag #walfart? 
-SQL--> SELECT COUNT(*) FROM tweets WHERE hastags LIKE '%walfart%';
-
-26. What are the most recent Walmart distribution center tweets? 
-SQL--> SELECT * FROM tweets WHERE description = "walmart distribution centre";
-
-27. How many customers are moving from walmart to target? 
-SQL--> SELECT COUNT(*) FROM tweets WHERE description ="no walmart yes target";
-
-28. How many customers are irritated when their order is lost or delivered late? 
-SQL--> SELECT COUNT(*) FROM tweets WHERE description LIKE '%latedelivery%' OR description LIKE '%lost%' AND hastags LIKE '%walfart%';
-
-29. Which top 3 cities received the most gift cards? 
-SQL--> SELECT location , COUNT(*)
-FROM tweets
-WHERE description LIKE '%win%' OR description like '%offer%' GROUP BY location LIMIT=3;
-
-30. Which of the following people are top 3 Walmart customer who frequently tweet about Walmart? 
-SQL--> SELECT username, COUNT(totaltweets) FROM tweets ORDER BY totaltweets LIMIT=3; 
-```
-
-### Twitter Code
-
-```sq
-# Python Script to Extract tweets of a
-# particular Hashtag using Tweepy and Pandas
-
-# import modules
-import pandas as pd
-import tweepy
-
-# function to display data of each tweet
-def printtweetdata(n, ith_tweet):
-		print()
-		print(f"Tweet {n}:")
-		print(f"Username:{ith_tweet[0]}")
-		print(f"Description:{ith_tweet[1]}")
-		print(f"Location:{ith_tweet[2]}")
-		print(f"Following Count:{ith_tweet[3]}")
-		print(f"Follower Count:{ith_tweet[4]}")
-		print(f"Total Tweets:{ith_tweet[5]}")
-		print(f"Retweet Count:{ith_tweet[6]}")
-		print(f"Tweet Text:{ith_tweet[7]}")
-		print(f"Hashtags Used:{ith_tweet[8]}"}
-		print(f"Created At:{ith_tweet[9]}")
-
-
-# function to perform data extraction
-def scrape(words, date_since, numtweet):
-
-		# Creating DataFrame using pandas
-		db = pd.DataFrame(columns=['username',
-								'description',
-								'location',
-								'following',
-								'followers',
-								'totaltweets',
-								'retweetcount',
-								'text',
-								'hashtags',
-					  			'createdat'])
-
-		# We are using .Cursor() to search
-		# through twitter for the required tweets.
-		# The number of tweets can be
-		# restricted using .items(number of tweets)
-		tweets = tweepy.Cursor(api.search_tweets,
-							words, lang="en",
-							since_id=date_since,
-							tweet_mode='extended').items(numtweet)
-
-
-		# .Cursor() returns an iterable object. Each item in
-		# the iterator has various attributes
-		# that you can access to
-		# get information about each tweet
-		list_tweets = [tweet for tweet in tweets]
-
-		# Counter to maintain Tweet Count
-		i = 1
-
-		# we will iterate over each tweet in the
-		# list for extracting information about each tweet
-		for tweet in list_tweets:
-				username = tweet.user.screen_name
-				description = tweet.user.description
-				location = tweet.user.location
-				following = tweet.user.friends_count
-				followers = tweet.user.followers_count
-				totaltweets = tweet.user.statuses_count
-				retweetcount = tweet.retweet_count
-				hashtags = tweet.entities['hashtags']
-		      		createdat = tweet.user.created_at
-
-				# Retweets can be distinguished by
-				# a retweeted_status attribute,
-				# in case it is an invalid reference,
-				# except block will be executed
-				try:
-						text = tweet.retweeted_status.full_text
-				except AttributeError:
-						text = tweet.full_text
-				hashtext = list()
-				for j in range(0, len(hashtags)):
-						hashtext.append(hashtags[j]['text'])
-
-				# Here we are appending all the
-				# extracted information in the DataFrame
-				ith_tweet = [username, description,
-							location, following,
-							followers, totaltweets,
-							retweetcount, text, hashtext, createdat]
-				db.loc[len(db)] = ith_tweet
-
-				# Function call to print tweet data on screen
-				printtweetdata(i, ith_tweet)
-				i = i+1
-		filename = 'GFG_tweets.csv'
-
-		# we will save our database as a CSV file.
-		db.to_csv(filename)
-
-if __name__ == '__main__':
-
-		# Enter your own credentials obtained
-		# from your developer account
-		consumer_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		consumer_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		access_key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-		access_secret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-
-
-		auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-		auth.set_access_token(access_key, access_secret)
-		api = tweepy.API(auth)
-
-		# Enter Hashtag and initial date
-		print("Enter Twitter HashTag to search for")
-		words = input()
-		print("Enter Date since The Tweets are required in yyyy-mm--dd")
-		date_since = input()
-
-		# number of tweets you want to extract in one run
-		numtweet = 100
-		scrape(words, date_since, numtweet)
-		print('Scraping has completed!')
-```
-
-## Updating Database from CSV
-
-```sq
-# Import required modules
-import csv
-import sqlite3
-
-# Connecting to the geeks database
-connection = sqlite3.connect('Tweets_Extracted.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE tweets(
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				username VARCHAR NOT NULL,
-				description VARCHAR NOT NULL,
-				location VARCHAR NOT NULL,
-				following INTEGER NOT NULL,
-				followers INTEGER NOT NULL,
-				totaltweets INTEGER NOT NULL,
-				retweetcount INTEGER NOT NULL,
-				text VARCHAR NOT NULL,
-				hastags VARCHAR NOT NULL
-				);
-				'''
-
-# Creating the table into our
-# database
-cursor.execute(create_table)
-
-# Opening the tweets-records.csv file
-file = open('GFG_tweets.csv' , errors='ignore')
-
-# Reading the contents of the
-# tweets-records.csv file
-contents = csv.reader(file)
-
-
-
-# SQL query to insert data into the
-# tweets table
-# Similar Line is used remaining tables.
-insert_records = "INSERT INTO tweets (username, description, location, following, followers, totaltweets, retweetcount, text, hastags) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file
-# into our tweets table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-select_all = "SELECT * FROM tweets"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-
-```
-
-## Python Code for Data Cleaning , Munging 
-
-```sq
-import pandas as pd
-import numpy as np
-
-#import matplotlib.pyplot as plt
-
-#Dataset 1
-walmart_path = 'D:\DMDD\Assignment 3\myCity.csv'
-
-walmart_ori = pd.read_csv(walmart_path)
-walmart = walmart_ori.copy()
-
-walmart.head()
-
-walmart.info()
-
-#Function to fetch missing values from Dataset 1
-def missing_cols(walmart):
-    '''prints out columns with its amount of missing values'''
-    total = 0
-    for col in walmart.columns:
-        missing_vals = walmart[col].isnull().sum()
-        total += missing_vals
-        if missing_vals != 0:
-            print(f"{col} => {walmart[col].isnull().sum()}")
-    
-    if total == 0:
-        print("no missing values left")
-            
-#Missing Columns Values in Walmart Dataframe            
-missing_cols(walmart)
-
-def perc_missing(walmart):
-    '''prints out columns with missing values with its %'''
-    for col in walmart.columns:
-        pct = walmart[col].isna().mean() * 100
-        if (pct != 0):
-            print('{} => {}%'.format(col, round(pct, 2)))
-
-#Percentage Wise Missing Values
-perc_missing(walmart)
-
-# Drop unnecessary columns that are not important
-colsToDrop = ['StockOfREOs','PrevForeclosed','ForeclosureRatio']
-
-walmart.drop(colsToDrop, axis=1, inplace=True)
-
-#Missing Values Redefined
-missing_cols(walmart)
-
-#Percentage Wise Missing Values
-perc_missing(walmart)
-
-
-# imputing with bfill or ffill
-walmart['Metro'].bfill(inplace=True)
-walmart['Metro'].ffill(inplace=True)
-walmart['SizeRank'].bfill(inplace=True)
-walmart['SizeRank'].ffill(inplace=True)
-walmart['SellForGain'].bfill(inplace=True)
-walmart['SellForGain'].ffill(inplace=True)
-walmart['ZHVI'].bfill(inplace=True)
-walmart['ZHVI'].ffill(inplace=True)
-walmart['MoM'].bfill(inplace=True)
-walmart['MoM'].ffill(inplace=True)
-walmart['ForecastYoYPctChange'].ffill(inplace=True)
-walmart['ForecastYoYPctChange'].bfill(inplace=True)
-walmart['YoY'].ffill(inplace=True)
-walmart['YoY'].ffill(inplace=True)
-walmart['Delinquency'].ffill(inplace=True)
-walmart['Delinquency'].ffill(inplace=True)
-walmart['DaysOnMarket'].ffill(inplace=True)
-walmart['DaysOnMarket'].ffill(inplace=True)
-walmart['NegativeEquity'].ffill(inplace=True)
-walmart['NegativeEquity'].ffill(inplace=True)
-
-#DF Post Cleaning
-missing_cols(walmart)
-
-
-#Cleaned DF 1
-print (walmart)
-
-#Cleaned Data Inserted into CSV
-csv_data = walmart.to_csv('D:\DMDD\Assignment 3\Cleaned_1.csv', index = False)
-
-
-# Import required modules
-import csv
-import sqlite3
-
-# Connecting to the geeks database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS walmart (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-                RegionType VARCHAR NOT NULL, 
-                RegionName VARCHAR NOT NULL, 
-                City VARCHAR NOT NULL, 
-                State VARCHAR NOT NULL, 
-                Metro VARCHAR NOT NULL, 
-                SizeRank INTEGER NOT NULL, 
-                MarketHealthIndex INTEGER NOT NULL, 
-                SellForGain INTEGER NOT NULL, 
-                ZHVI INTEGER NOT NULL, 
-                MoM INTEGER NOT NULL, 
-                YoY INTEGER NOT NULL, 
-                ForecastYoYPctChange INTEGER NOT NULL, 
-                NegativeEquity INTEGER NOT NULL, 
-                Delinquency INTEGER NOT NULL,
-                DaysOnMarket INTEGER NOT NULL
-				);
-				'''
-
-# Creating the table into our
-# database
-cursor.execute(create_table)
-
-# Opening the tweets-records.csv file
-file = open('D:\DMDD\Assignment 3\Cleaned.csv' , errors='ignore')
-
-# Reading the contents of the
-# tweets-records.csv file
-contents = csv.reader(file)
-
-
-
-# SQL query to insert data into the
-# tweets table
-insert_records = "INSERT INTO walmart (RegionType, RegionName,	City,	State,	Metro,	SizeRank,	MarketHealthIndex,	SellForGain,	ZHVI,	MoM,	YoY,	ForecastYoYPctChange, NegativeEquity, Delinquency,	DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file
-# into our tweets table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-# Change Table to tweets after the SQL
-select_all = "SELECT * FROM walmart"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-
-
-
-#Dataset 2
-walmart_path_1 = 'D:\DMDD\Assignment 3\Walmart.csv'
-
-walmart_ori_1 = pd.read_csv(walmart_path_1)
-walmart_1 = walmart_ori_1.copy()
-
-walmart_1.head()
-
-walmart_1.info()
-
-#Function to fetch missing values from Dataset 1
-def missing_cols(walmart_1):
-    '''prints out columns with its amount of missing values'''
-    total = 0
-    for col in walmart_1.columns:
-        missing_vals = walmart_1[col].isnull().sum()
-        total += missing_vals
-        if missing_vals != 0:
-            print(f"{col} => {walmart_1[col].isnull().sum()}")
-    
-    if total == 0:
-        print("no missing values left")
-
-missing_cols(walmart_1)
-
-# Connecting to the geeks database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS employment (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Store INTEGER NOT NULL,
-                Date INTEGER NOT NULL,
-                Weekly_Sales INTEGER NOT NULL,	
-                Holiday_Flag INTEGER NOT NULL,
-                Temperature	INTEGER NOT NULL,
-                Fuel_Price INTEGER NOT NULL,
-                CPI INTEGER NOT NULL,
-                Unemployment INTEGER NOT NULL
-				);
-				'''
-
-# Creating the table into our
-# database
-cursor.execute(create_table)
-
-# Opening the tweets-records.csv file
-file = open('D:\DMDD\Assignment 3\Walmart.csv' , errors='ignore')
-
-# Reading the contents of the
-# tweets-records.csv file
-contents = csv.reader(file)
-
-
-
-# SQL query to insert data into the
-# tweets table
-insert_records = "INSERT INTO employment (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file
-# into our tweets table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from
-# the person table To verify that the
-# data of the csv file has been successfully
-# inserted into the table
-# Change Table to tweets after the SQL
-select_all = "SELECT * FROM employment"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-
-```
-
-### Use Cases:
-
-- Which retailer has the highest sales?
-- Which retailer's standard deviation is the highest
-- Consequently, there are wide variations in sales.Likewise, determine the ratio of the mean to the standard deviation.
-- Which retailer(s) has/have the best quarterly growth rate in Q3?
-- Sales may suffer over certain holidays.Find out which holidays have more sales than the average non-holiday season sales for all of the stores combined.
-- Give insights and a monthly and semester snapshot of the sales in units.
-- Which of the retailers is closest to public transportation and makes commuting easier?
-- What other stores are located near the Walmart retailers? Because Walmart may lose some customers if they are drawn to other stores such as Target and Giant...
-- A thorough summary of the sales analysis so that other market competitors or new startups can identify the elements that boost sales and the difficulties that depress sales.
-- What is the category in which Walmart sees the most customer traffic?
-- Which retailer buys products from the farmers market?
-- What is the most cost-effective logistics and shipping organization that can be considered in order to fulfill the restocking of goods?
-- What's the attrition rate of employees in the Walmart retailer?
-- What is the timetable / ETA for retailers to restock supplies?
-- How long does the billing line typically wait?
-- What standard has Walmart set for employee education while hiring?
-- What is the typical employee happiness index based on employment?
-- Does a retailer really work upon the customer feedback?
-- What's the least time taken by the delivery vendors to ship the packages to the desired address?
-- Do the retailers ship the package outside their jurisdiction? If not, why?
-- What are the trivial requirements to get a membership of Walmart shops? Is SSN blocked to get a membership? If yes, how can it be avoided? As it might lose potential customers like students.
-- Are the groceries made available with dietary allergies and other types of customers in mind? (Kosher, Vegan, Lactose Intolerant)
-- Is the store easily accessible to people with disabilities, the elderly, and pregnant women?
-- Do retailers develop marketing strategies?
-- What percentage of goods expire or are thrown away because they are not purchased?
-- What products do Walmart retailers lack? Why doesn't the retailer stock that genre/category?
-- How many competitive retailer markets are available in the store's immediate vicinity? Does this have an impact on the store's sales?
-- How many customers prefer to shop online rather than in the store?
-- How frequently does the retailer need to advertise the store?
-- How much of an impact does the advertisement have on sales?
-- Is the retailer in a prime location in the city?
-- Is there parking available at the specific retailer store?
-- Is self-checkout available at the store?
-
-## Steps performed to get desired database quality:
-
-- Investigated datasets from kyaggle and other legitimate data source platforms.
-
-- Verified the datasets' authenticity.
-
-- Created some Python scripts to convert csv data to database and insert it into appropriate tables.
-
-- Assign key constraints to multiple tables in order to perform useful operations.
-
-- Executed SQL statements to retrieve information as defined by usecases.
-
-- Cleaned up the database and removed inconsistencies using Python scripts. 
-
-- Created an ER and UML diagram to comprehend the flow and database skeleton.
-
-- Instead of using regular SQL select statements, VIEWS for SQL were created to simplify data retrieval.
-
-- Normalized the data using 1NF, 2NF, 3NF, and 4NF normalization methods. 
-
-### Outputs of all 15 views
-
-![](./views_created.png)
-
-![](./sql/View-SS1.png)
-
-![](./sql/View-SS2.png)
-
-![](./sql/View-SS3.png)
-
-![](./sql/View-SS4.png)
-
-![](./sql/View-SS5.png)
-
-![](./sql/View-SS6.png)
-
-![](./sql/View-SS7.png)
-
-![](./sql/View-SS8.png)
-
-![](./sql/View-SS9.png)
-
-![](./sql/View-SS10.png)
-
-![](./sql/View-SS11.png)
-
-![](./sql/View-SS12.png)
-
-![](./sql/View-SS13.png)
-
-![](./sql/View-SS14.png)
-
-![](./sql/View-SS15.png)
-
-
-
-
-
-
-
+![Sales UML](./FinalUML1.png)
+
+---
+
+## 🗄️ Database Tables
+
+### Twitter-Sourced Tables
+
+| Table | Description | Screenshot |
+|-------|-------------|------------|
+| **Giftcards** | Tweets with hashtags about Walmart gift card promotions | ![](./tweets_giftcards.png) |
+| **Tweets** | General Walmart-related tweets | ![](./tweets_table.png) |
+| **Delivery** | Tweets about Walmart delivery service | ![](./tweets_delivery.png) |
+| **Fart** | Negative-sentiment tweets (#walfart) from dissatisfied customers | ![](./tweets_fart.png) |
+
+### Cleaned & Normalized Sales Tables
+
+| Table | Primary Key | Foreign Key | Description |
+|-------|-------------|-------------|-------------|
+| **Employment** | `Employment_Id` | `Services_Id` | Store-level weekly sales, holiday flag, temperature, fuel price, CPI, unemployment |
+| **Services** | `Services_Id` | `Employment_Id` | Market indicators — ZHVI, MoM, YoY, NegativeEquity, Delinquency, DaysOnMarket |
+| **Walmart** | `Walmart_Id` | — | Store regions — RegionType, City, State, Metro, SizeRank, MarketHealthIndex, SellForGain |
+
+| Table | Screenshot |
+|-------|------------|
+| **Employment** | ![](./employment.jpeg) |
+| **Services** | ![](./services.jpeg) |
+| **Walmart** | ![](./walmart.jpeg) |
+
+> All tables are normalized to **3NF** — see the [Normalization README](../Normalization/readme.md) for the full walkthrough.
+
+---
+
+## 🔍 SQL Queries (1–15: Sales DB)
+
+| # | Query | SQL |
+|---|-------|-----|
+| 1 | Total weekly sales per store | `SELECT Store, SUM(Weekly_Sales) AS Total_weeklysales FROM employment GROUP BY Store` |
+| 2 | Stores with Fuel_Price > 3.5 on non-holidays | `SELECT Store, Date, Fuel_Price, Holiday_Flag FROM employment WHERE Holiday_Flag=0 AND Fuel_Price > 3.5` |
+| 3 | Min unemployment for Store 1 in a sales range | `SELECT MIN(Unemployment), Store FROM employment WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store` |
+| 4 | Average weekly sales per store | `SELECT AVG(Weekly_Sales), Store FROM employment GROUP BY Store` |
+| 5 | Stores with holiday flag sum > 9 | `SELECT Store, SUM(Holiday_Flag) FROM employment GROUP BY Store HAVING SUM(Holiday_Flag) > 9` |
+| 6 | DaysOnMarket in Phoenix (JOIN) | `... INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE City="Phoenix"` |
+| 7 | Max SizeRank where DaysOnMarket = 106 | `... WHERE SizeRank=(SELECT MAX(SizeRank) ...) AND services.DaysOnMarket=106` |
+| 8 | Cities where NegativeEquity < Delinquency | `... WHERE NegativeEquity < Delinquency` |
+| 9 | All cities with DaysOnMarket (LEFT JOIN) | `SELECT walmart.RegionName, walmart.City, services.DaysOnMarket FROM walmart LEFT JOIN services ...` |
+| 10 | All cities/regions/states with DaysOnMarket (UNION) | `... LEFT JOIN ... UNION SELECT ...` |
+| 11 | NegativeEquity & Delinquency in Boston | `... WHERE City="Boston"` |
+| 12 | Max SellForGain by ZHVI threshold | `... WHERE SellForGain=(SELECT MAX(SellForGain) ...) AND services.ZHVI=190900` |
+| 13 | DaysOnMarket totals by state | `... GROUP BY State` |
+| 14 | Highest weekly sale on 05-02-2010 | `... WHERE Date = 05-02-2010 AND Weekly_Sales=(SELECT MAX(Weekly_Sales) ...)` |
+| 15 | Min MarketHealthIndex by MoM threshold | `... WHERE MarketHealthIndex=(SELECT MAX(...)) OR MoM=1.00791936645068` |
+
+### SQL Output Screenshots
+
+| | | |
+|---|---|---|
+| ![](./sql1.png) | ![](./sql2.png) | ![](./sql3.png) |
+| ![](./sql4.png) | ![](./sql5.png) | ![](./sql6.png) |
+| ![](./sql7.png) | ![](./sql8.png) | ![](./sql9.png) |
+| ![](./sql10.jpeg) | ![](./sql11.jpeg) | ![](./sql12.jpeg) |
+| ![](./sql13.jpeg) | ![](./sql14.jpeg) | ![](./sql15.jpeg) |
+| ![](./sql/1.jpeg) | ![](./sql/2.jpeg) | ![](./sql/3.jpeg) |
+| ![](./sql/4.jpeg) | ![](./sql/5.jpeg) | ![](./sql/6.jpeg) |
+| ![](./sql/7.jpeg) | ![](./sql/8.jpeg) | ![](./sql/9.jpeg) |
+
+---
+
+## 🐦 SQL Queries (16–30: Twitter DB)
+
+| # | Query | Description |
+|---|-------|-------------|
+| 16 | `CREATE TABLE tweets (...)` | Create the tweets table schema |
+| 17 | `SELECT (*) FROM tweets WHERE description = "walmart delivery"` | Tweets about Walmart delivery |
+| 18 | `SELECT COUNT(*) ... WHERE hastags = "#walmartsales"` | Tweet count for #walmartsales |
+| 19 | `SELECT COUNT(DISTINCT hastags) ...` | Unique hashtags related to Walmart/sales |
+| 20 | `SELECT COUNT(*) ... WHERE description = "walmart happy customers"` | Positive sentiment tweets |
+| 21 | `SELECT COUNT(*) ... WHERE description = "walmartdelivery"` | Delivery tweet count |
+| 22 | `SELECT * ... WHERE description = "EmmaWatson" ... hashtags = "#walmartgiftcards"` | Influencers promoting gift cards |
+| 23 | `SELECT location, COUNT(totaltweets) ... GROUP BY location` | Location with most tweets |
+| 24 | `SELECT location, COUNT(totaltweets) ... WHERE description LIKE '%HP Pavilion%'` | HP Pavilion tweet locations |
+| 25 | `SELECT COUNT(*) ... WHERE hastags LIKE '%walfart%'` | Negative sentiment (#walfart) count |
+| 26 | `SELECT * ... WHERE description = "walmart distribution centre"` | Distribution center tweets |
+| 27 | `SELECT COUNT(*) ... WHERE description = "no walmart yes target"` | Customers switching to Target |
+| 28 | `SELECT COUNT(*) ... WHERE description LIKE '%latedelivery%' OR '%lost%'` | Frustrated customers (late/lost orders) |
+| 29 | `SELECT location, COUNT(*) ... WHERE '%win%' OR '%offer%' ... LIMIT 3` | Top 3 cities for gift card tweets |
+| 30 | `SELECT username, COUNT(totaltweets) ... ORDER BY totaltweets LIMIT 3` | Top 3 most active Walmart tweeters |
+
+---
+
+## 👁️ SQL VIEWs
+
+15 VIEWs were created for reusable analytics:
+
+| # | View Name | Purpose |
+|---|-----------|---------|
+| 1 | `total_sales` | Total weekly sales per store |
+| 2 | `fuelprice` | Non-holiday dates with high fuel prices |
+| 3 | `Min_unemployemnt` | Min unemployment for a filtered store |
+| 4 | `Avg_weekly_sales` | Average weekly sales per store |
+| 5 | `Sum_holiday_flag` | Stores by holiday flag sum |
+| 6 | `DOM_Phoenix` | DaysOnMarket for Phoenix |
+| 7 | `DOM` | Max SizeRank by DaysOnMarket |
+| 8 | `sales_services` | NegativeEquity vs Delinquency |
+| 9 | `All_dom` | All regions with DaysOnMarket |
+| 10 | `Services_dom` | All regions/states with DaysOnMarket |
+| 11 | `negative_equity` | Boston NegativeEquity & Delinquency |
+| 12 | `ZHVI` | Max SellForGain by ZHVI |
+| 13 | `DOM_states` | DaysOnMarket totals by state |
+| 14 | `weekly_sales` | Highest sale on a specific date |
+| 15 | `min_MHI` | Min MarketHealthIndex by MoM |
+
+### View Output Screenshots
+
+| | |
+|---|---|
+| ![](./views_created.png) | |
+| ![](./sql/View-SS1.png) | ![](./sql/View-SS2.png) |
+| ![](./sql/View-SS3.png) | ![](./sql/View-SS4.png) |
+| ![](./sql/View-SS5.png) | ![](./sql/View-SS6.png) |
+| ![](./sql/View-SS7.png) | ![](./sql/View-SS8.png) |
+| ![](./sql/View-SS9.png) | ![](./sql/View-SS10.png) |
+| ![](./sql/View-SS11.png) | ![](./sql/View-SS12.png) |
+| ![](./sql/View-SS13.png) | ![](./sql/View-SS14.png) |
+| ![](./sql/View-SS15.png) | |
+
+---
+
+## 🛠️ Steps Performed
+
+1. Investigated datasets from Kaggle and other legitimate data sources
+2. Verified dataset authenticity and completeness
+3. Created Python scripts to clean CSV data and load it into SQLite tables
+4. Assigned primary/foreign key constraints across tables
+5. Executed SQL statements to answer the 30 use-case questions
+6. Cleaned database inconsistencies using pandas (drop columns, impute nulls)
+7. Created ER and UML diagrams for the database schema
+8. Defined SQL VIEWs for reusable data retrieval
+9. Normalized all tables to 3NF
+
+---
+
+## 📝 Business Use Cases (30 Questions)
+
+<details>
+<summary>Click to expand full list</summary>
+
+1. Which retailer has the highest sales?
+2. Which retailer's standard deviation is the highest?
+3. Determine the ratio of the mean to the standard deviation.
+4. Which retailer(s) has/have the best quarterly growth rate in Q3?
+5. Which holidays have more sales than the average non-holiday season?
+6. Monthly and semester sales snapshots.
+7. Which retailers are closest to public transportation?
+8. What other stores are located near Walmart retailers?
+9. Summary of elements that boost or depress sales.
+10. Category with most customer traffic at Walmart.
+11. Which retailer buys from the farmers market?
+12. Most cost-effective logistics for restocking.
+13. Employee attrition rate.
+14. ETA for retailers to restock supplies.
+15. Typical billing line wait time.
+16. Walmart's employee education hiring standard.
+17. Typical employee happiness index.
+18. Does the retailer act on customer feedback?
+19. Least delivery time by shipping vendors.
+20. Do retailers ship outside their jurisdiction?
+21. Membership requirements — is SSN required?
+22. Are groceries available for dietary restrictions (Kosher, Vegan, etc.)?
+23. Is the store accessible for disabled, elderly, and pregnant visitors?
+24. Do retailers develop marketing strategies?
+25. Percentage of goods that expire unsold.
+26. What products does Walmart lack and why?
+27. How many competitors are nearby? Impact on sales?
+28. Online vs in-store shopping preference.
+29. How frequently does the retailer advertise?
+30. Impact of advertisement on sales.
+31. Is the retailer in a prime city location?
+32. Is parking available?
+33. Is self-checkout available?
+
+</details>
+
+---
+
+<p align="center">Made with 📊 by Sahil, Sneha & Arundhati — DAMG 6210</p>
