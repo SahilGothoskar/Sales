@@ -22,7 +22,7 @@ This assignment covers the full data-ingestion pipeline: **gathering → cleanin
 | `myCity.csv` | Dataset 1 — housing/market data by city (ZHVI, MarketHealthIndex, etc.) |
 | `Walmart.csv` | Dataset 2 — weekly store sales with economic indicators |
 | `Cleaned.csv` | Cleaned output of Dataset 1 |
-| `Cleaned_DB.db` | SQLite database with `walmart` and `employment` tables |
+| `Cleaned_DB.db` | SQLite database with `walmart`, `services`, and `employment` tables |
 | `SQL and Use cases` | 15 analytical SQL queries with JOINs |
 | `UML__Assignment_3.png` | UML diagram for the database schema |
 
@@ -31,40 +31,52 @@ This assignment covers the full data-ingestion pipeline: **gathering → cleanin
 ## 🔄 Pipeline Flow
 
 ```
-myCity.csv ──→ Cleaning_Data.py ──→ Cleaned.csv ──→ SQLite: walmart table
-                  │                                          │
-Walmart.csv ─────┘ (already clean) ──────────────→ SQLite: employment table
-                                                          │
-                                                   Cleaned_DB.db
+myCity.csv ──→ clean & split ──→ Cleaned.csv ──→ SQLite: walmart table
+                    │                  └──────→ SQLite: services table
+                    │
+Walmart.csv ───────┘ (no nulls) ──────────────→ SQLite: employment table
+                                                        │
+                                                 Cleaned_DB.db
 ```
 
-### Step 1 — Collect Data
-Data sourced from Kaggle:
-- `myCity.csv` — City-level housing market indicators
-- `Walmart.csv` — Store-level weekly sales (45 stores)
+#### 1. Collect Data
+- `myCity.csv` — City-level housing market indicators (Kaggle)
+- `Walmart.csv` — Store-level weekly sales for 45 stores (Kaggle)
 
-### Step 2 — Clean with pandas (`Cleaning_Data.py`)
+#### 2. Clean with pandas
+- **Dataset 1 (myCity.csv):** audit nulls → drop `StockOfREOs`, `PrevForeclosed`, `ForeclosureRatio` → impute remaining with bfill/ffill → export to `Cleaned.csv`
+- **Dataset 2 (Walmart.csv):** no missing values — loaded directly
 
-**Dataset 1 (myCity.csv):**
-1. Audit missing values with `missing_cols()` and `perc_missing()` helpers
-2. Drop irrelevant columns: `StockOfREOs`, `PrevForeclosed`, `ForeclosureRatio`
-3. Impute remaining nulls using backward-fill + forward-fill for: `Metro`, `SizeRank`, `SellForGain`, `ZHVI`, `MoM`, `YoY`, `ForecastYoYPctChange`, `Delinquency`, `DaysOnMarket`, `NegativeEquity`
-4. Export cleaned DataFrame to `Cleaned.csv`
+#### 3. Load into SQLite
+| Table | Columns | Source |
+|-------|---------|--------|
+| `walmart` | RegionType, RegionName, City, State, Metro, SizeRank, MarketHealthIndex, SellForGain | Cleaned.csv |
+| `services` | ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket | Cleaned_1.csv |
+| `employment` | Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment | Walmart.csv |
 
-**Dataset 2 (Walmart.csv):**
-- No missing values — loaded directly
+#### 4. SQL Analysis — 15 queries covering aggregations, filters, JOINs, and subqueries (see below)
 
-### Step 3 — Load into SQLite
-Both datasets are bulk-inserted into `Cleaned_DB.db`:
-- `walmart` table — 15 columns (RegionType, RegionName, City, State, Metro, SizeRank, MarketHealthIndex, SellForGain, ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket)
-- `employment` table — 8 columns (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment)
+---
 
-### Step 4 — SQL Analysis
-15 use-case queries in `SQL and Use cases` covering:
-- Aggregations (`SUM`, `AVG`, `MIN`, `MAX`)
-- Filtered queries (`WHERE`, `BETWEEN`, `HAVING`)
-- `INNER JOIN` and `LEFT JOIN` across `walmart` and `services` tables
-- Subqueries for max/min lookups
+## 🔍 SQL Use Cases
+
+| # | Question | Key SQL |
+|---|----------|---------|
+| 1 | Total weekly sales per store | `SUM(Weekly_Sales) ... GROUP BY Store` |
+| 2 | Stores with Fuel_Price > 3.5 on non-holidays | `WHERE Holiday_Flag=0 AND Fuel_Price > 3.5` |
+| 3 | Min unemployment for Store 1 in a sales range | `MIN(Unemployment) ... BETWEEN 1542561.09 AND 1606629.58` |
+| 4 | Average weekly sales per store | `AVG(Weekly_Sales) ... GROUP BY Store` |
+| 5 | Stores with holiday flag sum > 9 | `HAVING SUM(Holiday_Flag) > 9` |
+| 6 | DaysOnMarket in Phoenix | `INNER JOIN services ... WHERE City="Phoenix"` |
+| 7 | Max SizeRank where DaysOnMarket = 106 | `WHERE SizeRank=(SELECT MAX(...)) AND DaysOnMarket=106` |
+| 8 | Cities where NegativeEquity < Delinquency | `INNER JOIN ... WHERE NegativeEquity < Delinquency` |
+| 9 | All cities with DaysOnMarket | `LEFT JOIN services ...` |
+| 10 | All cities/regions/states (UNION) | `LEFT JOIN ... UNION SELECT ...` |
+| 11 | NegativeEquity & Delinquency in Boston | `WHERE City="Boston"` |
+| 12 | Max SellForGain by ZHVI threshold | `WHERE SellForGain=(SELECT MAX(...)) AND ZHVI=190900` |
+| 13 | DaysOnMarket totals by state | `SUM(DaysOnMarket) ... GROUP BY State` |
+| 14 | Highest weekly sale on 05-02-2010 | `WHERE Date=05-02-2010 AND Weekly_Sales=(SELECT MAX(...))` |
+| 15 | Min MarketHealthIndex by MoM | `WHERE MarketHealthIndex=(SELECT MAX(...)) OR MoM=1.0079...` |
 
 ---
 
@@ -75,7 +87,7 @@ cd Assignment_3
 python Cleaning_Data.py
 ```
 
-> **Note:** File paths in the script use absolute Windows paths — adjust to your local environment before running.
+> **Note:** File paths in the script use absolute Windows paths — update them before running.
 
 ---
 
@@ -92,198 +104,3 @@ python Cleaning_Data.py
 | **Sahil Gothoskar** | [@SahilGothoskar](https://github.com/SahilGothoskar) |
 | **Sneha Giranje** | [@snehagiranje27](https://github.com/snehagiranje27) |
 | **Arundhati Pathrikar** | [@ArundhatiCat](https://github.com/ArundhatiCat) |
-
-# Connecting to the Cleaned database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\TEST\Cleaned_TEST_DB.db')
-
-# Creating a cursor object to execute
-# SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS services (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-                ZHVI INTEGER NOT NULL, 
-                MoM INTEGER NOT NULL, 
-                YoY INTEGER NOT NULL, 
-                ForecastYoYPctChange INTEGER NOT NULL, 
-                NegativeEquity INTEGER NOT NULL, 
-                Delinquency INTEGER NOT NULL,
-                DaysOnMarket INTEGER NOT NULL
-				);
-				'''
-
-# Creating the table into our  database
-cursor.execute(create_table)
-
-# Opening the Cleaned_1.csv file
-file = open('D:\DMDD\Assignment 3\TEST\Cleaned_1.csv' , errors='ignore')
-
-# Reading the contents of the Cleaned_1.csv file
-contents = csv.reader(file)
-
-
-# SQL query to insert data into the services table
-insert_records = "INSERT INTO services (ZHVI, MoM, YoY, ForecastYoYPctChange, NegativeEquity, Delinquency, DaysOnMarket) VALUES( ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file  into our tweets table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from  the person table To verify that the data of the csv file has been successfully inserted into the table
-# Change Table to services after the SQL
-select_all = "SELECT * FROM services"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-
-
-#Dataset 3
-walmart_path_2 = 'D:\DMDD\Assignment 3\Walmart.csv'
-
-walmart_ori_2 = pd.read_csv(walmart_path_2)
-walmart_2 = walmart_ori_2.copy()
-
-walmart_2.head()
-
-walmart_2.info()
-
-#Function to fetch missing values from Dataset 1
-def missing_cols(walmart_2):
-    '''prints out columns with its amount of missing values'''
-    total = 0
-    for col in walmart_2.columns:
-        missing_vals = walmart_2[col].isnull().sum()
-        total += missing_vals
-        if missing_vals != 0:
-            print(f"{col} => {walmart_1[col].isnull().sum()}")
-    
-    if total == 0:
-        print("no missing values left")
-
-missing_cols(walmart_2)
-
-# Connecting to the Cleaned database
-connection = sqlite3.connect('D:\DMDD\Assignment 3\Cleaned_DB.db')
-
-# Creating a cursor object to execute SQL queries on a database table
-cursor = connection.cursor()
-
-# Table Definition
-create_table = '''CREATE TABLE IF NOT EXISTS employment (
-				id INTEGER PRIMARY KEY AUTOINCREMENT,
-                Store INTEGER NOT NULL,
-                Date INTEGER NOT NULL,
-                Weekly_Sales INTEGER NOT NULL,	
-                Holiday_Flag INTEGER NOT NULL,
-                Temperature	INTEGER NOT NULL,
-                Fuel_Price INTEGER NOT NULL,
-                CPI INTEGER NOT NULL,
-                Unemployment INTEGER NOT NULL
-				);
-				'''
-
-# Creating the table into our database
-cursor.execute(create_table)
-
-# Opening the Walmart.csv file
-file = open('D:\DMDD\Assignment 3\Walmart.csv' , errors='ignore')
-
-# Reading the contents of the Walmart.csv file
-contents = csv.reader(file)
-
-# SQL query to insert data into the employment table
-insert_records = "INSERT INTO employment (Store, Date, Weekly_Sales, Holiday_Flag, Temperature, Fuel_Price, CPI, Unemployment) VALUES( ?, ?, ?, ?, ?, ?, ?, ?)"
-
-# Importing the contents of the file into our employment table
-cursor.executemany(insert_records, contents)
-
-# SQL query to retrieve all data from the person table To verify that the data of the csv file has been successfully inserted into the table
-# Change Table to tweets after the SQL
-select_all = "SELECT * FROM employment"
-rows = cursor.execute(select_all).fetchall()
-
-# Output to the console screen
-for r in rows:
-    print(r)
-
-# Committing the changes
-connection.commit()
-
-# closing the database connection
-connection.close()
-
-
-
-```
-
-## Use Cases and SQL Queries
-
-```sh 
-
-1.Find total weekly sales of each store.
-SQL--> SELECT Store , SUM(Weekly_Sales) as Total_weeklysales FROM employment GROUP BY Store;
-
-2.Find dates on which Walmart store had Fuel_Price > 3.5 and Holiday_Flag was 0
-SQL-->  SELECT Store, Date , Fuel_Price, Holiday_Flag FROM employment WHERE Holiday_Flag=0 AND Fuel_Price > 3.5;
-
-3.Select min of Unemployment of store 1 and sales between 1542561.09 and 1606629.58 
-SQL-->  SELECT MIN(Unemployment), Store from employment WHERE STORE=1 AND Weekly_Sales BETWEEN 1542561.09 AND 1606629.58 GROUP BY Store;
-
-4.Find average weekly sales of each store.
-SQL-->  SELECT AVG(Weekly_Sales), Store from employment GROUP BY Store;
-
-5.list the number of customers in each country. Only include STORES with less than 3 Holiday_flag
-SQL-->   SELECT Store, SUM(Holiday_Flag) FROM employment GROUP BY Store HAVING SUM(Holiday_Flag) >9;
-
-6.Show all the DaysOnMarket where CITY is Phoenix
-SQL-->  SELECT walmart.RegionName, walmart.City, services.DaysOnMarket  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  where City="Phoenix";
-
-7.Finding out Maximum SizeRank, RegionName, City where DaysOnMarket=106
-SQL-->  SELECT walmart.SizeRank, walmart.RegionName, walmart.City, services.DaysOnMarket from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id  WHERE SizeRank=(SELECT MAX(SizeRank) from walmart) AND  services.DaysOnMarket=106;
-
-8.Finding cities and region where  NegativeEquity < Delinquency
-SQL-->  SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE  NegativeEquity < Delinquency;
-
-9.Show all cities an regions with any DaysOnMarket they might have
-SQL-->  SELECT walmart.RegionName, walmart.City,  services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id;
-
-10.Show all cities, regions, state with All DaysOnMarket in the table
-SQL-->  SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id UNION SELECT walmart.RegionName, walmart.City, walmart.State, services.DaysOnMarket FROM walmart LEFT JOIN services ON walmart.Walmart_id = services.services_id ;
-
-11.Show the list of NegativeEquity, Delinquency, regions in Massachusetts state and city is Boston 
-SQL-->  SELECT walmart.RegionName, walmart.City, services.NegativeEquity, services.Delinquency  from  walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE City=“Boston";
-
-12.Finding out Maximum SellForGain, RegionName, City where ZHVI >= 695600
-SQL-->  SELECT walmart.SellForGain, walmart.RegionName, walmart.City, services.ZHVI from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE SellForGain=(SELECT MAX(SellForGain) from walmart) AND services.ZHVI =190900;
-
-
-13.Show DaysOnMarket in each state
-SQL-->  SELECT walmart.State, SUM(services.DaysOnMarket) from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id GROUP BY State;
-
-14.Select store which has the highest weekly sale on this 05-02-2010 date
-SQL-->  SELECT Store, Weekly_Sales, Date from employment where Date = 05-02-2010  AND Weekly_Sales=(SELECT MAX(Weekly_Sales) from employment );
-
-15.Finding out Minimum MarketHealthIndex, RegionName, City where MoM=1.00791936645068
-SQL--> SELECT walmart.MarketHealthIndex, walmart.RegionName, walmart.City, services.MoM from walmart INNER JOIN services ON walmart.Walmart_id = services.services_id WHERE MarketHealthIndex=(SELECT MAX(MarketHealthIndex) from walmart) OR MoM= 1.00791936645068;
-
-
-```
-
-Sneha Giranje (002785370)
-Arundhati Pathrikar (002780632)
-Sahil Gothoskar (002775631)
-
-
-
-
-
-
-

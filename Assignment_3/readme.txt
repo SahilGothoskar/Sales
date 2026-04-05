@@ -1,26 +1,20 @@
-#Cleaning of Data:
+Assignment 3 — Data Cleaning & SQLite Ingestion
+=================================================
 
-We have used variety of packages for cleaning of data. For Database we have use SQL Lite3. Which is easy to incorporate with python
+Tools: Python 3, pandas, SQLite3
 
+Datasets:
+  1. myCity.csv  — https://www.kaggle.com/datasets/yasserh/walmart-dataset?resource=download
+  2. Walmart.csv — https://www.kaggle.com/code/avelinocaio/walmart-store-sales-forecasting
 
-DataSet1: https://www.kaggle.com/datasets/yasserh/walmart-dataset?resource=download
-DataSet2: https://www.kaggle.com/code/avelinocaio/walmart-store-sales-forecasting 
+Pipeline:
+  myCity.csv  → clean (drop cols, impute nulls) → Cleaned.csv → walmart & services tables
+  Walmart.csv → load directly                                 → employment table
+  All tables stored in Cleaned_DB.db
 
+See Readme.md for full details, SQL queries, and UML diagram.
 
-
-
-
-
-
-
-
-
-
-
-
-
-- Team Memebers:
-
-Arundhati Pathrikar
-Sneha Giranje
-Sahil Gothoskar
+Team:
+  - Sahil Gothoskar   (@SahilGothoskar)
+  - Sneha Giranje     (@snehagiranje27)
+  - Arundhati Pathrikar (@ArundhatiCat)
